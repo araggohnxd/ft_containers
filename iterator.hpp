@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:56:09 by maolivei          #+#    #+#             */
-/*   Updated: 2023/01/23 21:21:49 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/01/24 16:23:14 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ struct iterator_traits<T const *> {
         typedef std::random_access_iterator_tag iterator_category;
 };
 
-};
+} /* namespace ft */
 
 #endif /* FT_ITERATOR_HPP */
