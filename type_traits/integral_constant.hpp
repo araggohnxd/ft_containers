@@ -1,19 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   type_traits.hpp                                    :+:      :+:    :+:   */
+/*   integral_constant.hpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 10:24:50 by maolivei          #+#    #+#             */
-/*   Updated: 2023/01/25 13:01:28 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/01/25 12:58:28 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_TYPE_TRAITS_HPP
-#define FT_TYPE_TRAITS_HPP
+#ifndef FT_INTEGRAL_CONSTANT_HPP
+#define FT_INTEGRAL_CONSTANT_HPP
 
-#include "type_traits/enable_if.hpp"
-#include "type_traits/is_integral.hpp"
+namespace ft {
 
-#endif /* FT_TYPE_TRAITS_HPP */
+template <typename T, T v>
+struct integral_constant {
+        static const T                  value = v;
+        typedef T                       value_type;
+        typedef integral_constant<T, v> type;
+};
+
+typedef integral_constant<bool, true>  true_type;
+typedef integral_constant<bool, false> false_type;
+
+} /* namespace ft */
+
+#endif /* FT_INTEGRAL_CONSTANT_HPP */
