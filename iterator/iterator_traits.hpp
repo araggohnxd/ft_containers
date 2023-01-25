@@ -1,34 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   iterator.hpp                                       :+:      :+:    :+:   */
+/*   iterator_traits.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:56:09 by maolivei          #+#    #+#             */
-/*   Updated: 2023/01/24 16:23:14 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/01/24 21:09:38 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_ITERATOR_HPP
-#define FT_ITERATOR_HPP
+#ifndef FT_ITERATOR_TRAITS_HPP
+#define FT_ITERATOR_TRAITS_HPP
 
-#include <cstddef>
+#include <iterator>
 
 namespace ft {
-
-template <typename Category,
-          typename T,
-          typename Distance  = std::ptrdiff_t,
-          typename Pointer   = T *,
-          typename Reference = T &>
-struct iterator {
-        typedef Category  iterator_category;
-        typedef T         value_type;
-        typedef Distance  difference_type;
-        typedef Pointer   pointer;
-        typedef Reference reference;
-};
 
 template <typename Iterator>
 struct iterator_traits {
@@ -59,4 +46,4 @@ struct iterator_traits<T const *> {
 
 } /* namespace ft */
 
-#endif /* FT_ITERATOR_HPP */
+#endif /* FT_ITERATOR_TRAITS_HPP */
