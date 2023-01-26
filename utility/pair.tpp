@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:38:36 by maolivei          #+#    #+#             */
-/*   Updated: 2023/01/25 12:50:20 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/01/26 12:56:33 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ pair<T1, T2>::pair(pair<U, V> const &src) : first(src.first), second(src.second)
 }
 
 template <typename T1, typename T2>
-pair<T1, T2>::pair(first_type const &x, second_type const &y) : first(first), second(second)
+pair<T1, T2>::pair(first_type const &x, second_type const &y) : first(x), second(y)
 {
 }
 
