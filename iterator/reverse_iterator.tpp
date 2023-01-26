@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:57:01 by maolivei          #+#    #+#             */
-/*   Updated: 2023/01/24 21:09:53 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/01/25 21:50:07 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,25 +101,25 @@ reverse_iterator<T> reverse_iterator<T>::operator-(difference_type n) const
 }
 
 template <typename T>
-reverse_iterator<T>::reference reverse_iterator<T>::operator*(void) const
+typename reverse_iterator<T>::reference reverse_iterator<T>::operator*(void) const
 {
     return (*--_ptr);
 }
 
 template <typename T>
-reverse_iterator<T>::pointer reverse_iterator<T>::operator->(void) const
+typename reverse_iterator<T>::pointer reverse_iterator<T>::operator->(void) const
 {
     return (--_ptr);
 }
 
 template <typename T>
-reverse_iterator<T>::reference reverse_iterator<T>::operator[](difference_type n) const
+typename reverse_iterator<T>::reference reverse_iterator<T>::operator[](difference_type n) const
 {
     return (_ptr[-n - 1]);
 }
 
 template <typename T>
-reverse_iterator<T>::iterator_type reverse_iterator<T>::base(void) const
+typename reverse_iterator<T>::iterator_type reverse_iterator<T>::base(void) const
 {
     return (_ptr);
 }
