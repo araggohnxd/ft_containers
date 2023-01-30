@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:57:01 by maolivei          #+#    #+#             */
-/*   Updated: 2023/01/25 21:50:07 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/01/30 12:44:31 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,109 +17,117 @@
 
 namespace ft {
 
-template <typename T>
-reverse_iterator<T>::reverse_iterator(void) : _ptr(NULL)
+template <typename Iterator>
+reverse_iterator<Iterator>::reverse_iterator(void) : _ptr(NULL)
 {
 }
 
-template <typename T>
-reverse_iterator<T>::reverse_iterator(iterator_type x) : _ptr(x)
+template <typename Iterator>
+reverse_iterator<Iterator>::reverse_iterator(iterator_type const &x) : _ptr(x)
 {
 }
 
-template <typename T>
-reverse_iterator<T>::reverse_iterator(reverse_iterator<T> const &src) : _ptr(src._ptr)
+template <typename Iterator>
+reverse_iterator<Iterator>::reverse_iterator(reverse_iterator const &src) : _ptr(src._ptr)
 {
 }
 
+template <typename Iterator>
 template <typename T>
-reverse_iterator<T>::~reverse_iterator(void)
+reverse_iterator<Iterator>::reverse_iterator(reverse_iterator<T> const &src) : _ptr(src.base())
 {
 }
 
-template <typename T>
-reverse_iterator<T> &reverse_iterator<T>::operator=(reverse_iterator<T> const &src)
+template <typename Iterator>
+reverse_iterator<Iterator>::~reverse_iterator(void)
+{
+}
+
+template <typename Iterator>
+reverse_iterator<Iterator> &
+reverse_iterator<Iterator>::operator=(reverse_iterator<Iterator> const &src)
 {
     _ptr = src._ptr;
     return (*this);
 }
 
-template <typename T>
-reverse_iterator<T> &reverse_iterator<T>::operator++(void)
+template <typename Iterator>
+reverse_iterator<Iterator> &reverse_iterator<Iterator>::operator++(void)
 {
     --_ptr;
     return (*this);
 }
 
-template <typename T>
-reverse_iterator<T> reverse_iterator<T>::operator++(int)
+template <typename Iterator>
+reverse_iterator<Iterator> reverse_iterator<Iterator>::operator++(int)
 {
     reverse_iterator tmp(*this);
     _ptr--;
     return (tmp);
 }
 
-template <typename T>
-reverse_iterator<T> &reverse_iterator<T>::operator+=(difference_type n)
+template <typename Iterator>
+reverse_iterator<Iterator> &reverse_iterator<Iterator>::operator+=(difference_type n)
 {
     _ptr -= n;
     return (*this);
 }
 
-template <typename T>
-reverse_iterator<T> reverse_iterator<T>::operator+(difference_type n) const
+template <typename Iterator>
+reverse_iterator<Iterator> reverse_iterator<Iterator>::operator+(difference_type n) const
 {
     return (reverse_iterator(_ptr - n));
 }
 
-template <typename T>
-reverse_iterator<T> &reverse_iterator<T>::operator--(void)
+template <typename Iterator>
+reverse_iterator<Iterator> &reverse_iterator<Iterator>::operator--(void)
 {
     ++_ptr;
     return (*this);
 }
 
-template <typename T>
-reverse_iterator<T> reverse_iterator<T>::operator--(int)
+template <typename Iterator>
+reverse_iterator<Iterator> reverse_iterator<Iterator>::operator--(int)
 {
     reverse_iterator tmp(*this);
     _ptr++;
     return (tmp);
 }
 
-template <typename T>
-reverse_iterator<T> &reverse_iterator<T>::operator-=(difference_type n)
+template <typename Iterator>
+reverse_iterator<Iterator> &reverse_iterator<Iterator>::operator-=(difference_type n)
 {
     _ptr += n;
     return (*this);
 }
 
-template <typename T>
-reverse_iterator<T> reverse_iterator<T>::operator-(difference_type n) const
+template <typename Iterator>
+reverse_iterator<Iterator> reverse_iterator<Iterator>::operator-(difference_type n) const
 {
     return (reverse_iterator(_ptr + n));
 }
 
-template <typename T>
-typename reverse_iterator<T>::reference reverse_iterator<T>::operator*(void) const
+template <typename Iterator>
+typename reverse_iterator<Iterator>::reference reverse_iterator<Iterator>::operator*(void) const
 {
     return (*--_ptr);
 }
 
-template <typename T>
-typename reverse_iterator<T>::pointer reverse_iterator<T>::operator->(void) const
+template <typename Iterator>
+typename reverse_iterator<Iterator>::pointer reverse_iterator<Iterator>::operator->(void) const
 {
     return (--_ptr);
 }
 
-template <typename T>
-typename reverse_iterator<T>::reference reverse_iterator<T>::operator[](difference_type n) const
+template <typename Iterator>
+typename reverse_iterator<Iterator>::reference
+reverse_iterator<Iterator>::operator[](difference_type n) const
 {
     return (_ptr[-n - 1]);
 }
 
-template <typename T>
-typename reverse_iterator<T>::iterator_type reverse_iterator<T>::base(void) const
+template <typename Iterator>
+typename reverse_iterator<Iterator>::iterator_type reverse_iterator<Iterator>::base(void) const
 {
     return (_ptr);
 }

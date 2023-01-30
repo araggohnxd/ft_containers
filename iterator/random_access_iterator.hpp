@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 19:38:23 by maolivei          #+#    #+#             */
-/*   Updated: 2023/01/24 21:09:40 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/01/30 12:42:35 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ class random_access_iterator : public ft::iterator<typename ft::iterator_traits<
         typedef typename iterator_traits<Iterator>::iterator_category iterator_category;
 
         random_access_iterator(void);
-        explicit random_access_iterator(iterator_type x);
+        explicit random_access_iterator(iterator_type const &x);
         random_access_iterator(random_access_iterator const &src);
+        template <typename T> random_access_iterator(random_access_iterator<T> const &src);
         ~random_access_iterator(void);
         random_access_iterator &operator=(random_access_iterator const &src);
 

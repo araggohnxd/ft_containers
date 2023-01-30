@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 19:38:23 by maolivei          #+#    #+#             */
-/*   Updated: 2023/01/24 21:09:46 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/01/30 12:42:47 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ class reverse_iterator : public ft::iterator<typename ft::iterator_traits<Iterat
         typedef typename iterator_traits<Iterator>::iterator_category iterator_category;
 
         reverse_iterator(void);
-        explicit reverse_iterator(iterator_type x);
+        explicit reverse_iterator(iterator_type const &x);
         reverse_iterator(reverse_iterator const &src);
+        template <typename T> reverse_iterator(reverse_iterator<T> const &src);
         ~reverse_iterator(void);
         reverse_iterator &operator=(reverse_iterator const &src);
 

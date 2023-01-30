@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:57:01 by maolivei          #+#    #+#             */
-/*   Updated: 2023/01/25 21:50:09 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/01/30 12:41:10 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,112 +17,124 @@
 
 namespace ft {
 
-template <typename T>
-random_access_iterator<T>::random_access_iterator(void) : _ptr(NULL)
+template <typename Iterator>
+random_access_iterator<Iterator>::random_access_iterator(void) : _ptr(NULL)
 {
 }
 
-template <typename T>
-random_access_iterator<T>::random_access_iterator(iterator_type x) : _ptr(x)
+template <typename Iterator>
+random_access_iterator<Iterator>::random_access_iterator(iterator_type const &x) : _ptr(x)
 {
 }
 
-template <typename T>
-random_access_iterator<T>::random_access_iterator(random_access_iterator<T> const &src) :
+template <typename Iterator>
+random_access_iterator<Iterator>::random_access_iterator(random_access_iterator const &src) :
     _ptr(src._ptr)
 {
 }
 
+template <typename Iterator>
 template <typename T>
-random_access_iterator<T>::~random_access_iterator(void)
+random_access_iterator<Iterator>::random_access_iterator(random_access_iterator<T> const &src) :
+    _ptr(src.base())
 {
 }
 
-template <typename T>
-random_access_iterator<T> &
-random_access_iterator<T>::operator=(random_access_iterator<T> const &src)
+template <typename Iterator>
+random_access_iterator<Iterator>::~random_access_iterator(void)
+{
+}
+
+template <typename Iterator>
+random_access_iterator<Iterator> &
+random_access_iterator<Iterator>::operator=(random_access_iterator<Iterator> const &src)
 {
     _ptr = src._ptr;
     return (*this);
 }
 
-template <typename T>
-random_access_iterator<T> &random_access_iterator<T>::operator++(void)
+template <typename Iterator>
+random_access_iterator<Iterator> &random_access_iterator<Iterator>::operator++(void)
 {
     ++_ptr;
     return (*this);
 }
 
-template <typename T>
-random_access_iterator<T> random_access_iterator<T>::operator++(int)
+template <typename Iterator>
+random_access_iterator<Iterator> random_access_iterator<Iterator>::operator++(int)
 {
     random_access_iterator tmp(*this);
     _ptr++;
     return (tmp);
 }
 
-template <typename T>
-random_access_iterator<T> &random_access_iterator<T>::operator+=(difference_type n)
+template <typename Iterator>
+random_access_iterator<Iterator> &random_access_iterator<Iterator>::operator+=(difference_type n)
 {
     _ptr += n;
     return (*this);
 }
 
-template <typename T>
-random_access_iterator<T> random_access_iterator<T>::operator+(difference_type n) const
+template <typename Iterator>
+random_access_iterator<Iterator>
+random_access_iterator<Iterator>::operator+(difference_type n) const
 {
     return (random_access_iterator(_ptr + n));
 }
 
-template <typename T>
-random_access_iterator<T> &random_access_iterator<T>::operator--(void)
+template <typename Iterator>
+random_access_iterator<Iterator> &random_access_iterator<Iterator>::operator--(void)
 {
     --_ptr;
     return (*this);
 }
 
-template <typename T>
-random_access_iterator<T> random_access_iterator<T>::operator--(int)
+template <typename Iterator>
+random_access_iterator<Iterator> random_access_iterator<Iterator>::operator--(int)
 {
     random_access_iterator tmp(*this);
     _ptr--;
     return (tmp);
 }
 
-template <typename T>
-random_access_iterator<T> &random_access_iterator<T>::operator-=(difference_type n)
+template <typename Iterator>
+random_access_iterator<Iterator> &random_access_iterator<Iterator>::operator-=(difference_type n)
 {
     _ptr -= n;
     return (*this);
 }
 
-template <typename T>
-random_access_iterator<T> random_access_iterator<T>::operator-(difference_type n) const
+template <typename Iterator>
+random_access_iterator<Iterator>
+random_access_iterator<Iterator>::operator-(difference_type n) const
 {
     return (random_access_iterator(_ptr - n));
 }
 
-template <typename T>
-typename random_access_iterator<T>::reference random_access_iterator<T>::operator*(void) const
+template <typename Iterator>
+typename random_access_iterator<Iterator>::reference
+random_access_iterator<Iterator>::operator*(void) const
 {
     return (*_ptr);
 }
 
-template <typename T>
-typename random_access_iterator<T>::pointer random_access_iterator<T>::operator->(void) const
+template <typename Iterator>
+typename random_access_iterator<Iterator>::pointer
+random_access_iterator<Iterator>::operator->(void) const
 {
     return (_ptr);
 }
 
-template <typename T>
-typename random_access_iterator<T>::reference
-random_access_iterator<T>::operator[](difference_type n) const
+template <typename Iterator>
+typename random_access_iterator<Iterator>::reference
+random_access_iterator<Iterator>::operator[](difference_type n) const
 {
     return (_ptr[n]);
 }
 
-template <typename T>
-typename random_access_iterator<T>::iterator_type random_access_iterator<T>::base(void) const
+template <typename Iterator>
+typename random_access_iterator<Iterator>::iterator_type
+random_access_iterator<Iterator>::base(void) const
 {
     return (_ptr);
 }
