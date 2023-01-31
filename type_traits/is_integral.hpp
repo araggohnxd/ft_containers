@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 10:24:50 by maolivei          #+#    #+#             */
-/*   Updated: 2023/01/25 12:59:14 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/01/31 19:35:58 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@ namespace ft {
 
 template <typename T>
 struct is_integral : public false_type {};
+
+template <typename T>
+struct is_integral<T const> : is_integral<T> {};
+
+template <typename T>
+struct is_integral<T volatile> : is_integral<T> {};
+
+template <typename T>
+struct is_integral<const volatile T> : is_integral<T> {};
 
 template <>
 struct is_integral<bool> : public true_type {};
