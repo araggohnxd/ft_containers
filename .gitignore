@@ -33,3 +33,6 @@
 
 # Custom directories
 .vscode/
+
+# Custom files
+ft_containers_tests
