@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:57:01 by maolivei          #+#    #+#             */
-/*   Updated: 2023/01/30 12:44:31 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/03 19:19:51 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ reverse_iterator<Iterator> reverse_iterator<Iterator>::operator-(difference_type
 template <typename Iterator>
 typename reverse_iterator<Iterator>::reference reverse_iterator<Iterator>::operator*(void) const
 {
-    return (*--_ptr);
+    Iterator tmp = _ptr;
+    return (*--tmp);
 }
 
 template <typename Iterator>
