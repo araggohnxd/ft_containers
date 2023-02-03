@@ -15,7 +15,7 @@ TEST_PATH			:= $(addprefix ./tests/, $(TEST_DIRS))
 TEST_HEADER			:= doctest.h test_utils.hpp
 TEST_FILES			:= doctest_main.cpp
 
-TEST_VECTOR_FILES	:= test_vector_constructors.cpp
+TEST_VECTOR_FILES	:= test_vector_constructors.cpp test_vector_iterators.cpp
 
 ALL_TEST_FILES		:= $(TEST_VECTOR_FILES)
 
