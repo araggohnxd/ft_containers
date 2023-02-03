@@ -17,7 +17,7 @@ TEST_FILES			:= doctest_main.cpp
 
 TEST_VECTOR_FILES	:= test_vector_constructors.cpp
 
-ALL_TEST_FILES		:= test_vector_constructors.cpp
+ALL_TEST_FILES		:= $(TEST_VECTOR_FILES)
 
 ifdef VECTOR
 	TEST_FILES += $(TEST_VECTOR_FILES)
