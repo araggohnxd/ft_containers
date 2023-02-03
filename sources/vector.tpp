@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:01:01 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/02 23:34:19 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/03 12:57:30 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ namespace ft {
 template <typename T, typename Alloc>
 vector<T, Alloc>::vector(vector const &src) :
     _data(NULL),
-    _capacity(src._capacity),
-    _size(src._size),
+    _capacity(0),
+    _size(0),
     _allocator(src._allocator)
 {
     *this = src;
@@ -311,8 +311,6 @@ void vector<T, Alloc>::reserve(size_type new_cap)
 template <typename T, typename Alloc>
 void vector<T, Alloc>::clear(void)
 {
-    if (!_data)
-        return;
     for (size_type i = 0; i < _size; ++i)
         _allocator.destroy(_data + i);
     _size = 0;
