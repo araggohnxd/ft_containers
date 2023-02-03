@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:01:01 by maolivei          #+#    #+#             */
-/*   Updated: 2023/01/31 13:26:31 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/02 23:22:45 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ vector<T, Alloc>::~vector(void)
 template <typename T, typename Alloc>
 vector<T, Alloc> &vector<T, Alloc>::operator=(vector const &src)
 {
-    if (*this == src)
+    if (this == &src)
         return (*this);
     clear();
     if (_capacity > 0)
