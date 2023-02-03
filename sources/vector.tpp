@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:01:01 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/03 12:57:30 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/03 20:04:16 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,16 +165,12 @@ typename vector<T, Alloc>::const_reference vector<T, Alloc>::at(size_type pos) c
 template <typename T, typename Alloc>
 typename vector<T, Alloc>::reference vector<T, Alloc>::operator[](size_type pos)
 {
-    if (pos >= _size)
-        throw std::out_of_range("ft::vector::operator[]");
     return (*(begin() + pos));
 }
 
 template <typename T, typename Alloc>
 typename vector<T, Alloc>::const_reference vector<T, Alloc>::operator[](size_type pos) const
 {
-    if (pos >= _size)
-        throw std::out_of_range("ft::vector::operator[] const");
     return (*(begin() + pos));
 }
 
