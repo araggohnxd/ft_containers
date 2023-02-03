@@ -110,7 +110,7 @@ SpaceBeforeParensOptions:
   AfterControlStatements: true
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 1
-SpacesInAngles: Never
+SpacesInAngles: Leave
 SpacesInContainerLiterals: true
 SpacesInCStyleCastParentheses: false
 SpacesInSquareBrackets: false
