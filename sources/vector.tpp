@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:01:01 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/04 13:25:25 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/04 15:38:48 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,8 +306,6 @@ typename vector<T, Alloc>::iterator vector<T, Alloc>::insert(iterator pos, T con
 {
     difference_type distance;
 
-    if (pos < begin() || pos > end())
-        throw std::out_of_range("ft::vector::insert()");
     distance = pos - begin();
     if (_size == _capacity)
         reserve(_size ? (_size * 2) : 1);
@@ -327,11 +325,9 @@ void vector<T, Alloc>::insert(iterator pos, size_type n, T const &value)
 
     if (!n)
         return;
-    if (pos < begin() || pos > end())
-        throw std::out_of_range("ft::vector::insert()");
     distance = pos - begin();
     if ((_size + n) > _capacity)
-        reserve(_size ? (_size * 2 + n) : n);
+        reserve(_size + n);
     for (difference_type i = _size; i > distance; --i) {
         _allocator.construct((_data + i + n - 1), *(_data + i - 1));
         _allocator.destroy(_data + i - 1);
@@ -348,13 +344,21 @@ void vector<T, Alloc>::insert(iterator pos,
                               Iter     last,
                               typename ft::enable_if<!ft::is_integral<Iter>::value>::type *)
 {
-    if (first > last)
-        throw std::length_error("ft::vector::insert()");
-    while (first != last) {
-        pos = insert(pos, *first);
-        ++pos;
-        ++first;
+    difference_type distance, n;
+
+    n = ft::distance(first, last);
+    if (!n)
+        return;
+    distance = pos - begin();
+    if ((_size + n) > _capacity)
+        reserve((_size * 2) >= (_size + n) ? (_size * 2) : (_size + n));
+    for (difference_type i = _size; i > distance; --i) {
+        _allocator.construct((_data + i + n - 1), *(_data + i - 1));
+        _allocator.destroy(_data + i - 1);
     }
+    _size += n;
+    for (difference_type i = (distance + n - 1); n--; --i)
+        _allocator.construct((_data + i), *(first + n));
 }
 
 template <typename T, typename Alloc>
