@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:01:01 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/04 16:28:50 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/04 16:29:22 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,13 +344,13 @@ void vector<T, Alloc>::insert(iterator pos,
                               Iter     last,
                               typename ft::enable_if<!ft::is_integral<Iter>::value>::type *)
 {
-    difference_type distance, n;
+    difference_type distance, n = ft::distance(first, last);
 
     if (!n)
         return;
     distance = pos - begin();
     if ((_size + n) > _capacity)
-        reserve((_size * 2) >= (_size + n) ? (_size * 2) : (_size + n));
+        reserve(((_size * 2) >= (_size + n)) ? (_size * 2) : (_size + n));
     for (difference_type i = _size; i > distance; --i) {
         _allocator.construct((_data + i + n - 1), *(_data + i - 1));
         _allocator.destroy(_data + i - 1);
