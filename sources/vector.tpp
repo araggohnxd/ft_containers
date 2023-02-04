@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:01:01 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/04 15:38:48 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/04 16:28:50 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -346,7 +346,6 @@ void vector<T, Alloc>::insert(iterator pos,
 {
     difference_type distance, n;
 
-    n = ft::distance(first, last);
     if (!n)
         return;
     distance = pos - begin();
@@ -364,13 +363,11 @@ void vector<T, Alloc>::insert(iterator pos,
 template <typename T, typename Alloc>
 typename vector<T, Alloc>::iterator vector<T, Alloc>::erase(iterator position)
 {
-    difference_type distance;
+    size_type distance;
 
-    if (position < begin() || position >= end())
-        throw std::out_of_range("ft::vector::erase()");
     distance = position - begin();
     _allocator.destroy(_data + distance);
-    for (difference_type i = distance; i < (_size - 1); ++i)
+    for (size_type i = distance; i < (_size - 1); ++i)
         _allocator.construct(_data + i, *(_data + i + 1));
     --_size;
     return (iterator(_data + distance));
@@ -381,8 +378,6 @@ typename vector<T, Alloc>::iterator vector<T, Alloc>::erase(iterator first, iter
 {
     difference_type distance, n;
 
-    if (first < begin() || first > end() || last < begin() || last > end())
-        throw std::out_of_range("ft::vector::erase()");
     distance = first - begin();
     n        = last - first;
     for (size_type i = distance; i < (_size - n); ++i) {
