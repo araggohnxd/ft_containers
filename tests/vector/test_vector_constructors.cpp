@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:20:32 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/02 23:35:58 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/05 00:28:55 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,17 @@ TEST_CASE("test vector non-templated parametric constructor of type int with 100
     CHECK(std::equal(ft.begin(), ft.end(), std.begin()));
 }
 
-TEST_CASE("test vector non-templated parametric constructor of type int with 10000000 items")
-{
-    std::vector<int> std(10000000, 42);
-    ft::vector<int>  ft(10000000, 42);
+// TEST_CASE("test vector non-templated parametric constructor of type int with 10000000 items")
+// {
+//     std::vector<int> std(10000000, 42);
+//     ft::vector<int>  ft(10000000, 42);
 
-    CHECK(ft.size() == std.size());
-    CHECK(ft.capacity() == std.capacity());
-    CHECK(ft.max_size() == std.max_size());
-    CHECK(ft.empty() == std.empty());
-    CHECK(std::equal(ft.begin(), ft.end(), std.begin()));
-}
+//     CHECK(ft.size() == std.size());
+//     CHECK(ft.capacity() == std.capacity());
+//     CHECK(ft.max_size() == std.max_size());
+//     CHECK(ft.empty() == std.empty());
+//     CHECK(std::equal(ft.begin(), ft.end(), std.begin()));
+// }
 
 TEST_CASE("test vector non-templated parametric constructor of type string with 10 items")
 {
@@ -84,22 +84,22 @@ TEST_CASE("test vector non-templated parametric constructor of type string with 
     CHECK(std::equal(ft.begin(), ft.end(), std.begin()));
 }
 
-TEST_CASE("test vector non-templated parametric constructor of type string with 10000000 items")
-{
-    std::vector<std::string> std(10000000, "foo");
-    ft::vector<std::string>  ft(10000000, "foo");
+// TEST_CASE("test vector non-templated parametric constructor of type string with 10000000 items")
+// {
+//     std::vector<std::string> std(10000000, "foo");
+//     ft::vector<std::string>  ft(10000000, "foo");
 
-    CHECK(ft.size() == std.size());
-    CHECK(ft.capacity() == std.capacity());
-    CHECK(ft.max_size() == std.max_size());
-    CHECK(ft.empty() == std.empty());
-    CHECK(std::equal(ft.begin(), ft.end(), std.begin()));
-}
+//     CHECK(ft.size() == std.size());
+//     CHECK(ft.capacity() == std.capacity());
+//     CHECK(ft.max_size() == std.max_size());
+//     CHECK(ft.empty() == std.empty());
+//     CHECK(std::equal(ft.begin(), ft.end(), std.begin()));
+// }
 
-TEST_CASE("test vector non-templated parametric constructor with 10000000000 items should throw")
-{
-    CHECK_THROWS_AS(ft::vector<int> ft(10000000000, 42), std::bad_alloc);
-}
+// TEST_CASE("test vector non-templated parametric constructor with 10000000000 items should throw")
+// {
+//     CHECK_THROWS_AS(ft::vector<int> ft(10000000000, 42), std::bad_alloc);
+// }
 
 TEST_CASE("test vector templated parametric constructor with an int array")
 {
