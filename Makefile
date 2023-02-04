@@ -43,7 +43,7 @@ all:				$(NAME)
 $(NAME):			$(OBJECT_FILES) | $(OBJECT_PATH)
 					$(CC) $(CFLAGS) -o $@ $(OBJECT_FILES)
 
-$(OBJECT_PATH)/%.o:	%.cpp $(SOURCE_FILES) $(TEST_FILES) Makefile | $(OBJECT_PATH)
+$(OBJECT_PATH)/%.o:	%.cpp $(SOURCE_FILES) $(TEST_HEADER) Makefile | $(OBJECT_PATH)
 					$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
 $(OBJECT_PATH):
@@ -57,11 +57,11 @@ fclean:				clean
 
 re:					fclean all
 
-test:				re
+test:				all
 					./$(NAME)
 
-vgtest:				re
+vgtest:				all
 					valgrind ./$(NAME) -nt
 
 
-.PHONY:				all clean fclean re test
+.PHONY:				all clean fclean re test vgtest
