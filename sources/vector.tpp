@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:01:01 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/03 20:04:16 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/03 21:48:29 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,14 +105,8 @@ void vector<T, Alloc>::assign(size_type n, T const &value)
     if (n > max_size())
         throw std::length_error("ft::vector::assign()");
     clear();
-    if (_capacity > 0)
-        _allocator.deallocate(_data, _capacity);
-    _capacity = n;
-    _size     = n;
-    _data     = _allocator.allocate(_size);
-    if (!_data)
-        throw std::bad_alloc();
-    for (size_type i = 0; i < _size; ++i)
+    reserve(n);
+    for (size_type i = 0; i < n; ++i)
         _allocator.construct((_data + i), value);
 }
 
@@ -123,20 +117,13 @@ void vector<T, Alloc>::assign(Iter first,
                               typename ft::enable_if<!ft::is_integral<Iter>::value>::type *)
 {
 
-    difference_type distance = ft::distance(first, last);
+    size_type distance = ft::distance(first, last);
 
     if (distance > max_size())
         throw std::length_error("ft::vector::assign()");
     clear();
-    if (_capacity > 0)
-        _allocator.deallocate(_data, _capacity);
-    if (distance > _capacity)
-        _capacity = distance;
-    _size = distance;
-    _data = _allocator.allocate(_size);
-    if (!_data)
-        throw std::bad_alloc();
-    for (size_type i = 0; i < _size; ++i)
+    reserve(distance);
+    for (size_type i = 0; i < distance; ++i)
         _allocator.construct((_data + i), *(first + i));
 }
 
