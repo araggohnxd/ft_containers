@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 19:22:48 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/03 19:47:15 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/04 17:11:25 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,4 +201,20 @@ TEST_CASE("test vector reserve a value equal to vector max size should throw")
     ft::vector<int> ft;
 
     CHECK_THROWS_AS(ft.reserve(ft.max_size()), std::bad_alloc);
+}
+
+TEST_CASE("test vector get_allocator() is the same as the standard one in int vector")
+{
+    std::vector<int> std(10, 42);
+    ft::vector<int>  ft(10, 42);
+
+    CHECK(std.get_allocator() == ft.get_allocator());
+}
+
+TEST_CASE("test vector get_allocator() is the same as the standard one in string vector")
+{
+    std::vector<std::string> std(10, "foo");
+    ft::vector<std::string>  ft(10, "foo");
+
+    CHECK(std.get_allocator() == ft.get_allocator());
 }
