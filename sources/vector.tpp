@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:01:01 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/03 21:48:29 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/04 13:25:25 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void vector<T, Alloc>::assign(size_type n, T const &value)
     reserve(n);
     for (size_type i = 0; i < n; ++i)
         _allocator.construct((_data + i), value);
+    _size = n;
 }
 
 template <typename T, typename Alloc>
@@ -125,6 +126,7 @@ void vector<T, Alloc>::assign(Iter first,
     reserve(distance);
     for (size_type i = 0; i < distance; ++i)
         _allocator.construct((_data + i), *(first + i));
+    _size = distance;
 }
 
 template <typename T, typename Alloc>
