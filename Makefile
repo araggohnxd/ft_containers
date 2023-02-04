@@ -17,7 +17,7 @@ TEST_FILES			:= doctest_main.cpp
 
 TEST_VECTOR_FILES	:= test_vector_constructors.cpp test_vector_iterators.cpp
 TEST_VECTOR_FILES	+= test_vector_capacity.cpp test_vector_element_access.cpp
-TEST_VECTOR_FILES	+= test_vector_modifiers.cpp
+TEST_VECTOR_FILES	+= test_vector_modifiers.cpp test_vector_non_member.cpp
 
 ALL_TEST_FILES		:= $(TEST_VECTOR_FILES)
 
