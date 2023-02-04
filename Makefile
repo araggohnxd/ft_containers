@@ -61,7 +61,7 @@ test:				re
 					./$(NAME)
 
 vgtest:				re
-					valgrind ./$(NAME)
+					valgrind ./$(NAME) -nt
 
 
 .PHONY:				all clean fclean re test
