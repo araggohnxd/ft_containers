@@ -1,7 +1,8 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#define DOCTEST_CONFIG_NO_POSIX_SIGNALS
 #include "doctest.h"
 
-/* 
+/*
  * Commented tests work fine but will most likely get Killed in workspaces
  * due to the virtual machine's limited memory.
  *
