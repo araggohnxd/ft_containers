@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 19:38:23 by maolivei          #+#    #+#             */
-/*   Updated: 2023/01/30 12:42:35 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/10 20:11:38 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,7 @@
 namespace ft {
 
 template <typename Iterator>
-class random_access_iterator : public ft::iterator<typename ft::iterator_traits<Iterator>::iterator_category,
-                                                   typename ft::iterator_traits<Iterator>::value_type,
-                                                   typename ft::iterator_traits<Iterator>::difference_type,
-                                                   typename ft::iterator_traits<Iterator>::pointer,
-                                                   typename ft::iterator_traits<Iterator>::reference> {
+class random_access_iterator : public iterator<std::random_access_iterator_tag, Iterator> {
     public:
         typedef Iterator                                              iterator_type;
         typedef typename iterator_traits<Iterator>::value_type        value_type;

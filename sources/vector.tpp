@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:01:01 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/04 16:29:22 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/10 20:18:00 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ vector<T, Alloc>::vector(size_type n, T const &value, Alloc const &alloc) :
     _allocator(alloc)
 {
     if (_size > max_size())
-        throw std::length_error("ft::vector ctor");
+        throw std::length_error("vector ctor");
     _data = _allocator.allocate(_size);
     if (!_data)
         throw std::bad_alloc();
@@ -58,14 +58,14 @@ template <typename Iter>
 vector<T, Alloc>::vector(Iter         first,
                          Iter         last,
                          Alloc const &alloc,
-                         typename ft::enable_if<!ft::is_integral<Iter>::value>::type *) :
+                         typename enable_if<!is_integral<Iter>::value>::type *) :
     _data(NULL),
     _capacity(ft::distance(first, last)),
     _size(ft::distance(first, last)),
     _allocator(alloc)
 {
     if (_size > max_size())
-        throw std::length_error("ft::vector ctor");
+        throw std::length_error("vector ctor");
     _data = _allocator.allocate(_size);
     if (!_data)
         throw std::bad_alloc();
@@ -103,7 +103,7 @@ template <typename T, typename Alloc>
 void vector<T, Alloc>::assign(size_type n, T const &value)
 {
     if (n > max_size())
-        throw std::length_error("ft::vector::assign()");
+        throw std::length_error("vector::assign()");
     clear();
     reserve(n);
     for (size_type i = 0; i < n; ++i)
@@ -115,13 +115,13 @@ template <typename T, typename Alloc>
 template <typename Iter>
 void vector<T, Alloc>::assign(Iter first,
                               Iter last,
-                              typename ft::enable_if<!ft::is_integral<Iter>::value>::type *)
+                              typename enable_if<!is_integral<Iter>::value>::type *)
 {
 
     size_type distance = ft::distance(first, last);
 
     if (distance > max_size())
-        throw std::length_error("ft::vector::assign()");
+        throw std::length_error("vector::assign()");
     clear();
     reserve(distance);
     for (size_type i = 0; i < distance; ++i)
@@ -139,7 +139,7 @@ template <typename T, typename Alloc>
 typename vector<T, Alloc>::reference vector<T, Alloc>::at(size_type pos)
 {
     if (pos >= _size)
-        throw std::out_of_range("ft::vector::at()");
+        throw std::out_of_range("vector::at()");
     return (*(begin() + pos));
 }
 
@@ -147,7 +147,7 @@ template <typename T, typename Alloc>
 typename vector<T, Alloc>::const_reference vector<T, Alloc>::at(size_type pos) const
 {
     if (pos >= _size)
-        throw std::out_of_range("ft::vector::at() const");
+        throw std::out_of_range("vector::at() const");
     return (*(begin() + pos));
 }
 
@@ -280,7 +280,7 @@ void vector<T, Alloc>::reserve(size_type new_cap)
     if (new_cap <= _capacity)
         return;
     if (new_cap > max_size())
-        throw std::length_error("ft::vector::reserve()");
+        throw std::length_error("vector::reserve()");
     tmp = _allocator.allocate(new_cap);
     if (!tmp)
         throw std::bad_alloc();
@@ -342,7 +342,7 @@ template <typename Iter>
 void vector<T, Alloc>::insert(iterator pos,
                               Iter     first,
                               Iter     last,
-                              typename ft::enable_if<!ft::is_integral<Iter>::value>::type *)
+                              typename enable_if<!is_integral<Iter>::value>::type *)
 {
     difference_type distance, n = ft::distance(first, last);
 
