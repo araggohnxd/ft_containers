@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:25:03 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/11 21:58:49 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/11 22:02:28 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "doctest.h"
 #include "rb_tree.hpp"
 #include "utility.hpp"
+#include "vector.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
