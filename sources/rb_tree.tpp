@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 22:37:23 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/11 21:56:10 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/12 16:33:29 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,18 @@ RB_TREE_CLASS::rb_tree(key_compare const &comp, allocator_type const &alloc) :
 }
 
 template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::create_node(value_type const &value)
+RB_TREE_CLASS::~rb_tree(void)
 {
-    node_pointer new_node = _allocator.allocate(1);
-
-    _allocator.construct(new_node, node(value, _root, _NIL, _NIL, _NIL, _NIL, red));
-    return (new_node);
+    if (_root && _root != _NIL)
+        _destroy_node(_root);
+    if (_NIL)
+        _allocator.deallocate(_NIL, 1);
 }
 
 template <RB_TREE_TEMPLATE>
 typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::insert(value_type const &value)
 {
-    node_pointer z = create_node(value);
+    node_pointer z = _create_node(value);
     node_pointer y = _NIL;
     node_pointer x = _root;
 
@@ -60,6 +60,26 @@ typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::insert(value_type const &val
         y->right = z;
     _insert_fixup(z);
     return (z);
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::_create_node(value_type const &value)
+{
+    node_pointer new_node = _allocator.allocate(1);
+
+    _allocator.construct(new_node, node(value, _root, _NIL, _NIL, _NIL, _NIL, red));
+    return (new_node);
+}
+
+template <RB_TREE_TEMPLATE>
+void RB_TREE_CLASS::_destroy_node(node_pointer node)
+{
+    if (!node || node == _NIL)
+        return;
+    _destroy_node(node->right);
+    _destroy_node(node->left);
+    _allocator.deallocate(node, 1);
+    --_size;
 }
 
 template <RB_TREE_TEMPLATE>

@@ -33,37 +33,38 @@ template <typename Key,
 class rb_tree {
     public:
         // TODO: see if all of these typedefs are necessary / being used
-        // FIXME: add a fucking destructor, there are leaks everywhere
-        typedef Value                                        value_type;
-        typedef Key                                          key_type;
-        typedef Compare                                      key_compare;
-        typedef Alloc                                        allocator_type;
-        typedef value_type                                  &reference;
-        typedef value_type const                            &const_reference;
-        typedef value_type                                  *pointer;
-        typedef value_type const                            *const_pointer;
-        typedef std::size_t                                  size_type;
-        typedef std::ptrdiff_t                               difference_type;
-        typedef rb_tree_node<Value>                          node;
-        typedef node                                        *node_pointer;
-        typedef node const                                  *const_node_pointer;
-        typedef typename Alloc::template rebind<node>::other node_allocator;
+        typedef Value                                                 value_type;
+        typedef Key                                                   key_type;
+        typedef Compare                                               key_compare;
+        typedef Alloc                                                 allocator_type;
+        typedef value_type                                           &reference;
+        typedef value_type const                                     &const_reference;
+        typedef value_type                                           *pointer;
+        typedef value_type const                                     *const_pointer;
+        typedef std::size_t                                           size_type;
+        typedef std::ptrdiff_t                                        difference_type;
+        typedef rb_tree_node<Value>                                   node;
+        typedef node                                                 *node_pointer;
+        typedef node const                                           *const_node_pointer;
+        typedef typename allocator_type::template rebind<node>::other node_allocator;
 
         explicit rb_tree(key_compare const    &comp  = key_compare(),
                          allocator_type const &alloc = allocator_type());
+        ~rb_tree(void);
 
-        node_pointer create_node(value_type const &value);
         node_pointer insert(value_type const &value);
 
         node_pointer get_root(void) const;
         node_pointer get_nil(void) const;
 
     private:
-        void _insert_fixup(node_pointer z);
-        void _insert_fixup_left_child(node_pointer z);
-        void _insert_fixup_right_child(node_pointer z);
-        void _left_rotate(node_pointer x);
-        void _right_rotate(node_pointer x);
+        node_pointer _create_node(value_type const &value);
+        void         _destroy_node(node_pointer node);
+        void         _insert_fixup(node_pointer z);
+        void         _insert_fixup_left_child(node_pointer z);
+        void         _insert_fixup_right_child(node_pointer z);
+        void         _left_rotate(node_pointer x);
+        void         _right_rotate(node_pointer x);
 
         node_pointer   _NIL;
         node_pointer   _root;
