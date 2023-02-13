@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 22:37:23 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/12 16:33:29 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/12 21:54:47 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,22 @@ typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::insert(value_type const &val
         y->right = z;
     _insert_fixup(z);
     return (z);
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::search(key_type const &key)
+{
+    return (_search(_root, key));
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::_search(node_pointer node, key_type const &key)
+{
+    if (!node || node == _NIL || KeyOfValue()(node->value) == key)
+        return (node);
+    if (_key_compare(key, KeyOfValue()(node->value)))
+        return (_search(node->left, key));
+    return (_search(node->right, key));
 }
 
 template <RB_TREE_TEMPLATE>

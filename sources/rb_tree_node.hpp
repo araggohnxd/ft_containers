@@ -30,7 +30,6 @@ struct rb_tree_node {
 
         explicit rb_tree_node(void);
         explicit rb_tree_node(value_type const &value,
-                              node_pointer      root,
                               node_pointer      nil,
                               node_pointer      parent = NULL,
                               node_pointer      right  = NULL,
@@ -38,7 +37,6 @@ struct rb_tree_node {
                               color_type        color  = black);
 
         value_type   value;
-        node_pointer root;
         node_pointer parent;
         node_pointer right;
         node_pointer left;

@@ -53,11 +53,13 @@ class rb_tree {
         ~rb_tree(void);
 
         node_pointer insert(value_type const &value);
+        node_pointer search(key_type const &key);
 
         node_pointer get_root(void) const;
         node_pointer get_nil(void) const;
 
     private:
+        node_pointer _search(node_pointer node, key_type const &key);
         node_pointer _create_node(value_type const &value);
         void         _destroy_node(node_pointer node);
         void         _insert_fixup(node_pointer z);

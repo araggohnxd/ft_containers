@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 19:44:11 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/11 15:43:11 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/13 11:42:00 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ namespace ft {
 template <typename T>
 rb_tree_node<T>::rb_tree_node(void) :
     value(T()),
-    root(NULL),
     parent(NULL),
     right(NULL),
     left(NULL),
@@ -31,14 +30,12 @@ rb_tree_node<T>::rb_tree_node(void) :
 
 template <typename T>
 rb_tree_node<T>::rb_tree_node(value_type const &value,
-                              node_pointer      root,
                               node_pointer      nil,
                               node_pointer      parent,
                               node_pointer      right,
                               node_pointer      left,
                               color_type        color) :
     value(value),
-    root(root),
     parent(parent),
     right(right),
     left(left),
