@@ -61,23 +61,29 @@ class rb_tree {
         node_pointer nil(void) const;
         size_type    size(void) const;
 
+        node_pointer       maximum(node_pointer x);
+        const_node_pointer maximum(const_node_pointer x);
+        node_pointer       minimum(node_pointer x);
+        const_node_pointer minimum(const_node_pointer x);
+        node_pointer       successor(node_pointer x);
+        const_node_pointer successor(const_node_pointer x);
+        node_pointer       predecessor(node_pointer x);
+        const_node_pointer predecessor(const_node_pointer x);
+
+
     private:
-        node_pointer       _search(node_pointer node, key_type const &key);
-        node_pointer       _create_node(value_type const &value);
-        void               _destroy_tree(node_pointer node);
-        void               _insert_fixup(node_pointer z);
-        void               _insert_fixup_left_child(node_pointer z);
-        void               _insert_fixup_right_child(node_pointer z);
-        void               _delete_fixup(node_pointer x);
-        void               _delete_fixup_left_child(node_pointer x);
-        void               _delete_fixup_right_child(node_pointer x);
-        void               _left_rotate(node_pointer x);
-        void               _right_rotate(node_pointer x);
-        void               _transplant(node_pointer u, node_pointer v);
-        node_pointer       _maximum(node_pointer x);
-        node_pointer       _minimum(node_pointer x);
-        const_node_pointer _maximum(const_node_pointer x);
-        const_node_pointer _minimum(const_node_pointer x);
+        node_pointer _search(node_pointer node, key_type const &key);
+        node_pointer _create_node(value_type const &value);
+        void         _destroy_tree(node_pointer node);
+        void         _insert_fixup(node_pointer z);
+        void         _insert_fixup_left_child(node_pointer z);
+        void         _insert_fixup_right_child(node_pointer z);
+        void         _delete_fixup(node_pointer x);
+        void         _delete_fixup_left_child(node_pointer x);
+        void         _delete_fixup_right_child(node_pointer x);
+        void         _left_rotate(node_pointer x);
+        void         _right_rotate(node_pointer x);
+        void         _transplant(node_pointer u, node_pointer v);
 
         node_pointer   _NIL;
         node_pointer   _root;

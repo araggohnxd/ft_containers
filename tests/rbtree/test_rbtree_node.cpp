@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 19:30:00 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/13 11:55:55 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/14 19:58:27 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ TEST_CASE("test rb node root")
     CHECK(!root.left);
     CHECK(!root.right);
     CHECK(!root.nil);
+    CHECK(!root.root);
     CHECK(root.color == ft::black);
 }
 
@@ -32,16 +33,18 @@ TEST_CASE("test rb node node1")
     CHECK(!node1.parent);
     CHECK(!node1.left);
     CHECK(!node1.right);
-    CHECK(node1.nil == &root);
+    CHECK(!node1.nil);
+    CHECK(node1.root == &root);
     CHECK(node1.color == ft::black);
 }
 
 TEST_CASE("test rb node node2")
 {
     CHECK(node2.value == 2);
-    CHECK(node2.parent == &node1);
+    CHECK(!node2.parent);
     CHECK(!node2.left);
     CHECK(!node2.right);
     CHECK(node2.nil == &node1);
+    CHECK(node2.root == &node1);
     CHECK(node2.color == ft::black);
 }

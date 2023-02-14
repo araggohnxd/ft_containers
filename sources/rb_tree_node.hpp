@@ -14,6 +14,7 @@
 #define FT_RB_TREE_NODE_HPP
 
 #include <cstddef>
+#include <iostream>
 
 namespace ft {
 
@@ -30,6 +31,7 @@ struct rb_tree_node {
 
         explicit rb_tree_node(void);
         explicit rb_tree_node(value_type const &value,
+                              node_pointer      root,
                               node_pointer      nil,
                               node_pointer      parent = NULL,
                               node_pointer      right  = NULL,
@@ -40,12 +42,17 @@ struct rb_tree_node {
         static const_node_pointer maximum(const_node_pointer x);
         static node_pointer       minimum(node_pointer x);
         static const_node_pointer minimum(const_node_pointer x);
+        static node_pointer       successor(node_pointer x);
+        static const_node_pointer successor(const_node_pointer x);
+        static node_pointer       predecessor(node_pointer x);
+        static const_node_pointer predecessor(const_node_pointer x);
 
         value_type   value;
+        node_pointer root;
+        node_pointer nil;
         node_pointer parent;
         node_pointer right;
         node_pointer left;
-        node_pointer nil;
         color_type   color;
 };
 
