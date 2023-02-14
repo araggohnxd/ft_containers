@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 19:30:00 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/13 21:39:37 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/14 11:51:49 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ TEST_CASE("test rb_tree empty tree has it's root equal to NIL")
 {
     RB_TREE tree;
 
-    CHECK(tree.get_root() == tree.get_nil());
+    CHECK(tree.root() == tree.nil());
 }
 
 TEST_CASE("test rb_tree with only one node has all of it's members equal to NIL")
@@ -55,20 +55,22 @@ TEST_CASE("test rb_tree with only one node has all of it's members equal to NIL"
     RB_NODE *root, *nil;
 
     tree.insert_node(TYPE("x", 42));
-    root = tree.get_root();
-    nil  = tree.get_nil();
+    root = tree.root();
+    nil  = tree.nil();
     CHECK(root->parent == nil);
     CHECK(root->right == nil);
     CHECK(root->left == nil);
     CHECK(root->nil == nil);
 }
 
-TEST_CASE("test rb_tree initialized with values 'lorenipsum' has size of 10")
+TEST_CASE("test rb_tree initialized with values 'lorenipsum' has size of 10 and increase properly")
 {
     RB_TREE tree;
 
     build_lorenipsum_tree(tree);
-    CHECK(tree.get_size() == 10);
+    CHECK(tree.size() == 10);
+    tree.insert_node(TYPE("X", 'X'));
+    CHECK(tree.size() == 11);
 }
 
 TEST_CASE("test rb_tree initialized with values 'lorenipsum' has node 'R' with proper values")
@@ -80,10 +82,10 @@ TEST_CASE("test rb_tree initialized with values 'lorenipsum' has node 'R' with p
     node = tree.search("R");
     CHECK((VOV<TYPE>()(node->value)) == 'R');
     CHECK(node->parent == tree.search("O"));
-    CHECK(node->parent == tree.get_root()); // node "O" happens to be tree's root
+    CHECK(node->parent == tree.root()); // node "O" happens to be tree's root
     CHECK(node->right == tree.search("S"));
     CHECK(node->left == tree.search("P"));
-    CHECK(node->nil == tree.get_nil());
+    CHECK(node->nil == tree.nil());
     CHECK(node->color == ft::red);
 }
 
@@ -96,9 +98,9 @@ TEST_CASE("test rb_tree initialized with values 'lorenipsum' has node 'N' with p
     node = tree.search("N");
     CHECK((VOV<TYPE>()(node->value)) == 'N');
     CHECK(node->parent == tree.search("L"));
-    CHECK(node->right == tree.get_nil());
+    CHECK(node->right == tree.nil());
     CHECK(node->left == tree.search("M"));
-    CHECK(node->nil == tree.get_nil());
+    CHECK(node->nil == tree.nil());
     CHECK(node->color == ft::black);
 }
 
@@ -109,8 +111,8 @@ TEST_CASE("test rb_tree with values 'lorenipsum' deletes node 'R' has nodes with
 
     build_lorenipsum_tree(tree);
     tree.delete_node("R");
-    root = tree.get_root();
-    nil  = tree.get_nil();
+    root = tree.root();
+    nil  = tree.nil();
     s    = tree.search("S");
     p    = tree.search("P");
     u    = tree.search("U");
@@ -135,8 +137,8 @@ TEST_CASE("test rb_tree with values 'lorenipsum' deletes node 'M' has nodes with
 
     build_lorenipsum_tree(tree);
     tree.delete_node("M");
-    root = tree.get_root();
-    nil  = tree.get_nil();
+    root = tree.root();
+    nil  = tree.nil();
     l    = tree.search("L");
     n    = tree.search("N");
     e    = tree.search("E");
@@ -152,4 +154,15 @@ TEST_CASE("test rb_tree with values 'lorenipsum' deletes node 'M' has nodes with
     CHECK(e->parent == l);
     CHECK(e->right == tree.search("I"));
     CHECK(e->left == nil);
+}
+
+TEST_CASE("test rb_tree with values 'lorenipsum' deletes node and has proper size")
+{
+    RB_TREE tree;
+
+    build_lorenipsum_tree(tree);
+    tree.delete_node("R");
+    CHECK(tree.size() == 9);
+    tree.delete_node("M");
+    CHECK(tree.size() == 8);
 }

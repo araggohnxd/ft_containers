@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 22:37:23 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/13 21:28:23 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/14 11:47:52 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,19 +341,19 @@ typename RB_TREE_CLASS::const_node_pointer RB_TREE_CLASS::_minimum(const_node_po
 }
 
 template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::get_root(void) const
+typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::root(void) const
 {
     return (_root);
 }
 
 template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::get_nil(void) const
+typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::nil(void) const
 {
     return (_NIL);
 }
 
 template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::size_type RB_TREE_CLASS::get_size(void) const
+typename RB_TREE_CLASS::size_type RB_TREE_CLASS::size(void) const
 {
     return (_size);
 }

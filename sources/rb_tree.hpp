@@ -57,9 +57,9 @@ class rb_tree {
         void         delete_node(key_type const &key);
         node_pointer search(key_type const &key);
 
-        node_pointer get_root(void) const;
-        node_pointer get_nil(void) const;
-        size_type    get_size(void) const;
+        node_pointer root(void) const;
+        node_pointer nil(void) const;
+        size_type    size(void) const;
 
     private:
         node_pointer       _search(node_pointer node, key_type const &key);
