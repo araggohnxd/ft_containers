@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 22:37:23 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/12 21:54:47 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/13 21:28:23 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ RB_TREE_CLASS::rb_tree(key_compare const &comp, allocator_type const &alloc) :
     _allocator(alloc)
 {
     _NIL = _allocator.allocate(1);
-    _allocator.construct(_NIL, node());
+    _allocator.construct(_NIL, node(value_type(), _NIL, _NIL, _NIL, _NIL, black));
     _root = _NIL;
 }
 
@@ -32,13 +32,15 @@ template <RB_TREE_TEMPLATE>
 RB_TREE_CLASS::~rb_tree(void)
 {
     if (_root && _root != _NIL)
-        _destroy_node(_root);
-    if (_NIL)
+        _destroy_tree(_root);
+    if (_NIL) {
+        _allocator.destroy(_NIL);
         _allocator.deallocate(_NIL, 1);
+    }
 }
 
 template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::insert(value_type const &value)
+typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::insert_node(value_type const &value)
 {
     node_pointer z = _create_node(value);
     node_pointer y = _NIL;
@@ -58,8 +60,47 @@ typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::insert(value_type const &val
         y->left = z;
     else
         y->right = z;
+    ++_size;
     _insert_fixup(z);
     return (z);
+}
+
+template <RB_TREE_TEMPLATE>
+void RB_TREE_CLASS::delete_node(key_type const &key)
+{
+    node_pointer    z                = search(key);
+    node_pointer    y                = z;
+    node_pointer    x                = NULL;
+    node_color_type y_original_color = y->color;
+
+    if (z == _NIL)
+        return;
+    if (z->left == _NIL) {
+        x = z->right;
+        _transplant(z, z->right); // replace z by its right child
+    } else if (z->right == _NIL) {
+        x = z->left;
+        _transplant(z, z->left); // replace z by its left child
+    } else {
+        y                = _minimum(z->right); // y is z’s successor
+        y_original_color = y->color;
+        x                = y->right;
+        if (y != z->right) {             // is y farther down the tree?
+            _transplant(y, y->right);    //  replace y by its right child
+            y->right         = z->right; //  z’s right child becomes
+            y->right->parent = y;        //  y’s right child
+        } else
+            x->parent = y;         // in case x is NIL
+        _transplant(z, y);         //  replace z by its successor y
+        y->left         = z->left; //  and give z’s left child to y,
+        y->left->parent = y;       //  which had no left child
+        y->color        = z->color;
+    }
+    _allocator.destroy(z);
+    _allocator.deallocate(z, 1);
+    --_size;
+    if (y_original_color == black) // if any red-black violations occur,
+        _delete_fixup(x);          // correct them
 }
 
 template <RB_TREE_TEMPLATE>
@@ -83,17 +124,18 @@ typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::_create_node(value_type cons
 {
     node_pointer new_node = _allocator.allocate(1);
 
-    _allocator.construct(new_node, node(value, _root, _NIL, _NIL, _NIL, _NIL, red));
+    _allocator.construct(new_node, node(value, _NIL, _NIL, _NIL, _NIL, red));
     return (new_node);
 }
 
 template <RB_TREE_TEMPLATE>
-void RB_TREE_CLASS::_destroy_node(node_pointer node)
+void RB_TREE_CLASS::_destroy_tree(node_pointer node)
 {
     if (!node || node == _NIL)
         return;
-    _destroy_node(node->right);
-    _destroy_node(node->left);
+    _destroy_tree(node->right);
+    _destroy_tree(node->left);
+    _allocator.destroy(node);
     _allocator.deallocate(node, 1);
     --_size;
 }
@@ -110,8 +152,6 @@ void RB_TREE_CLASS::_insert_fixup(node_pointer z)
             break;
     }
     _root->color = black;
-    _NIL->root = _root;
-    ++_size;
 }
 
 template <RB_TREE_TEMPLATE>
@@ -157,6 +197,76 @@ void RB_TREE_CLASS::_insert_fixup_right_child(node_pointer z)
 }
 
 template <RB_TREE_TEMPLATE>
+void RB_TREE_CLASS::_delete_fixup(node_pointer x)
+{
+    while (x != _root && x->color == black) {
+        if (x == x->parent->left)
+            _delete_fixup_left_child(x);
+        else
+            _delete_fixup_right_child(x);
+    }
+    x->color = black;
+}
+
+template <RB_TREE_TEMPLATE>
+void RB_TREE_CLASS::_delete_fixup_left_child(node_pointer x)
+{
+    node_pointer w = x->parent->right; // w is x's sibling
+
+    if (w->color == red) {
+        w->color         = black;
+        w->parent->color = red;
+        _left_rotate(x->parent);
+        w = x->parent->right;
+    }
+    if (w->left->color == black && w->right->color == black) {
+        w->color = red;
+        x        = x->parent;
+    } else {
+        if (w->right->color == black) {
+            w->left->color = black;
+            w->color       = red;
+            _right_rotate(w);
+            w = x->parent->right;
+        }
+        w->color         = x->parent->color;
+        x->parent->color = black;
+        w->right->color  = black;
+        _left_rotate(x->parent);
+        x = _root;
+    }
+}
+
+template <RB_TREE_TEMPLATE>
+void RB_TREE_CLASS::_delete_fixup_right_child(node_pointer x)
+{
+    node_pointer w = x->parent->left; // w is x's sibling
+
+    if (w->color == red) {
+        w->color         = black;
+        w->parent->color = red;
+        _right_rotate(x->parent);
+        w = x->parent->left;
+    }
+    if (w->right->color == black && w->left->color == black) {
+        w->color = red;
+        x        = x->parent;
+    } else {
+        if (w->left->color == black) {
+            w->right->color = black;
+            w->color        = red;
+            _left_rotate(w);
+            w = x->parent->left;
+        }
+        w->color         = x->parent->color;
+        x->parent->color = black;
+        w->left->color   = black;
+        _right_rotate(x->parent);
+        x = _root;
+    }
+}
+
+template <RB_TREE_TEMPLATE>
 void RB_TREE_CLASS::_left_rotate(node_pointer x)
 {
     node_pointer y = x->right;
@@ -195,6 +305,42 @@ void RB_TREE_CLASS::_right_rotate(node_pointer x)
 }
 
 template <RB_TREE_TEMPLATE>
+void RB_TREE_CLASS::_transplant(node_pointer u, node_pointer v)
+{
+    if (u->parent == _NIL)
+        _root = v;
+    else if (u == u->parent->left)
+        u->parent->left = v;
+    else
+        u->parent->right = v;
+    v->parent = u->parent;
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::_maximum(node_pointer x)
+{
+    return (node::maximum(x));
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::const_node_pointer RB_TREE_CLASS::_maximum(const_node_pointer x)
+{
+    return (node::maximum(x));
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::_minimum(node_pointer x)
+{
+    return (node::minimum(x));
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::const_node_pointer RB_TREE_CLASS::_minimum(const_node_pointer x)
+{
+    return (node::minimum(x));
+}
+
+template <RB_TREE_TEMPLATE>
 typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::get_root(void) const
 {
     return (_root);
@@ -204,6 +350,12 @@ template <RB_TREE_TEMPLATE>
 typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::get_nil(void) const
 {
     return (_NIL);
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::size_type RB_TREE_CLASS::get_size(void) const
+{
+    return (_size);
 }
 
 } /* namespace ft */

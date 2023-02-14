@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 19:30:00 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/13 11:44:37 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/13 21:39:37 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void build_lorenipsum_tree(RB_TREE &tree)
 {
-    tree.insert(TYPE("L", 76));
-    tree.insert(TYPE("O", 79));
-    tree.insert(TYPE("R", 82));
-    tree.insert(TYPE("E", 69));
-    tree.insert(TYPE("N", 78));
-    tree.insert(TYPE("I", 73));
-    tree.insert(TYPE("P", 80));
-    tree.insert(TYPE("S", 83));
-    tree.insert(TYPE("U", 85));
-    tree.insert(TYPE("M", 77));
+    tree.insert_node(TYPE("L", 'L'));
+    tree.insert_node(TYPE("O", 'O'));
+    tree.insert_node(TYPE("R", 'R'));
+    tree.insert_node(TYPE("E", 'E'));
+    tree.insert_node(TYPE("N", 'N'));
+    tree.insert_node(TYPE("I", 'I'));
+    tree.insert_node(TYPE("P", 'P'));
+    tree.insert_node(TYPE("S", 'S'));
+    tree.insert_node(TYPE("U", 'U'));
+    tree.insert_node(TYPE("M", 'M'));
 }
 
 void print_tree(RB_NODE *node, std::string const &indent, bool last)
@@ -54,11 +54,102 @@ TEST_CASE("test rb_tree with only one node has all of it's members equal to NIL"
     RB_TREE  tree;
     RB_NODE *root, *nil;
 
-    tree.insert(TYPE("x", 42));
+    tree.insert_node(TYPE("x", 42));
     root = tree.get_root();
     nil  = tree.get_nil();
     CHECK(root->parent == nil);
     CHECK(root->right == nil);
     CHECK(root->left == nil);
     CHECK(root->nil == nil);
+}
+
+TEST_CASE("test rb_tree initialized with values 'lorenipsum' has size of 10")
+{
+    RB_TREE tree;
+
+    build_lorenipsum_tree(tree);
+    CHECK(tree.get_size() == 10);
+}
+
+TEST_CASE("test rb_tree initialized with values 'lorenipsum' has node 'R' with proper values")
+{
+    RB_TREE  tree;
+    RB_NODE *node;
+
+    build_lorenipsum_tree(tree);
+    node = tree.search("R");
+    CHECK((VOV<TYPE>()(node->value)) == 'R');
+    CHECK(node->parent == tree.search("O"));
+    CHECK(node->parent == tree.get_root()); // node "O" happens to be tree's root
+    CHECK(node->right == tree.search("S"));
+    CHECK(node->left == tree.search("P"));
+    CHECK(node->nil == tree.get_nil());
+    CHECK(node->color == ft::red);
+}
+
+TEST_CASE("test rb_tree initialized with values 'lorenipsum' has node 'N' with proper values")
+{
+    RB_TREE  tree;
+    RB_NODE *node;
+
+    build_lorenipsum_tree(tree);
+    node = tree.search("N");
+    CHECK((VOV<TYPE>()(node->value)) == 'N');
+    CHECK(node->parent == tree.search("L"));
+    CHECK(node->right == tree.get_nil());
+    CHECK(node->left == tree.search("M"));
+    CHECK(node->nil == tree.get_nil());
+    CHECK(node->color == ft::black);
+}
+
+TEST_CASE("test rb_tree with values 'lorenipsum' deletes node 'R' has nodes with proper values")
+{
+    RB_TREE  tree;
+    RB_NODE *s, *p, *u, *root, *nil;
+
+    build_lorenipsum_tree(tree);
+    tree.delete_node("R");
+    root = tree.get_root();
+    nil  = tree.get_nil();
+    s    = tree.search("S");
+    p    = tree.search("P");
+    u    = tree.search("U");
+
+    CHECK(s->parent == root);
+    CHECK(s->right == u);
+    CHECK(s->left == p);
+
+    CHECK(p->parent == s);
+    CHECK(p->right == nil);
+    CHECK(p->left == nil);
+
+    CHECK(u->parent == s);
+    CHECK(u->right == nil);
+    CHECK(u->left == nil);
+}
+
+TEST_CASE("test rb_tree with values 'lorenipsum' deletes node 'M' has nodes with proper values")
+{
+    RB_TREE  tree;
+    RB_NODE *l, *n, *e, *root, *nil;
+
+    build_lorenipsum_tree(tree);
+    tree.delete_node("M");
+    root = tree.get_root();
+    nil  = tree.get_nil();
+    l    = tree.search("L");
+    n    = tree.search("N");
+    e    = tree.search("E");
+
+    CHECK(l->parent == root);
+    CHECK(l->right == n);
+    CHECK(l->left == e);
+
+    CHECK(n->parent == l);
+    CHECK(n->right == nil);
+    CHECK(n->left == nil);
+
+    CHECK(e->parent == l);
+    CHECK(e->right == tree.search("I"));
+    CHECK(e->left == nil);
 }

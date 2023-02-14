@@ -36,6 +36,11 @@ struct rb_tree_node {
                               node_pointer      left   = NULL,
                               color_type        color  = black);
 
+        static node_pointer       maximum(node_pointer x);
+        static const_node_pointer maximum(const_node_pointer x);
+        static node_pointer       minimum(node_pointer x);
+        static const_node_pointer minimum(const_node_pointer x);
+
         value_type   value;
         node_pointer parent;
         node_pointer right;
