@@ -20,6 +20,8 @@
 
 #define RB_TREE_CLASS rb_tree<Key, Value, KeyOfValue, Compare, Alloc>
 
+#include "iterator.hpp"
+#include "rb_tree_iterator.hpp"
 #include "rb_tree_node.hpp"
 #include <memory>
 
@@ -48,6 +50,10 @@ class rb_tree {
         typedef node const                                           *const_node_pointer;
         typedef typename node::color_type                             node_color_type;
         typedef typename allocator_type::template rebind<node>::other node_allocator;
+        typedef rb_tree_iterator<pointer>                             iterator;
+        typedef rb_tree_iterator<const_pointer>                       const_iterator;
+        typedef ft::reverse_iterator<iterator>                        reverse_iterator;
+        typedef ft::reverse_iterator<const_iterator>                  const_reverse_iterator;
 
         explicit rb_tree(key_compare const    &comp  = key_compare(),
                          allocator_type const &alloc = allocator_type());
@@ -70,6 +76,14 @@ class rb_tree {
         node_pointer       predecessor(node_pointer x);
         const_node_pointer predecessor(const_node_pointer x);
 
+        iterator               begin(void);
+        const_iterator         begin(void) const;
+        iterator               end(void);
+        const_iterator         end(void) const;
+        reverse_iterator       rbegin(void);
+        const_reverse_iterator rbegin(void) const;
+        reverse_iterator       rend(void);
+        const_reverse_iterator rend(void) const;
 
     private:
         node_pointer _search(node_pointer node, key_type const &key);

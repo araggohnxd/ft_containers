@@ -8,8 +8,9 @@ SOURCE_FILES		+= iterator.hpp reverse_iterator.hpp reverse_iterator.tpp
 SOURCE_FILES		+= random_access_iterator.hpp random_access_iterator.tpp
 SOURCE_FILES		+= lexicographical_compare.hpp equal.hpp algorithm.hpp
 SOURCE_FILES		+= type_traits.hpp utility.hpp pair.hpp pair.tpp
-SOURCE_FILES		+= vector.hpp vector.tpp rb_tree_node.hpp rb_tree_node.tpp
-SOURCE_FILES		+= rb_tree.hpp rb_tree.tpp
+SOURCE_FILES		+= rb_tree.hpp rb_tree.tpp rb_tree_node.hpp rb_tree_node.tpp
+SOURCE_FILES		+= rb_tree_reverse_iterator.hpp rb_tree_reverse_iterator.tpp
+SOURCE_FILES		+= rb_tree_iterator.hpp rb_tree_iterator.tpp vector.hpp vector.tpp
 
 TEST_DIRS			:= . vector rbtree
 TEST_PATH			:= $(addprefix ./tests/, $(TEST_DIRS))
@@ -20,7 +21,7 @@ TEST_VECTOR_FILES	:= test_vector_constructors.cpp test_vector_iterators.cpp
 TEST_VECTOR_FILES	+= test_vector_capacity.cpp test_vector_element_access.cpp
 TEST_VECTOR_FILES	+= test_vector_modifiers.cpp test_vector_non_member.cpp
 
-TEST_RBTREE_FILES	:= test_rbtree_node.cpp test_rbtree.cpp
+TEST_RBTREE_FILES	:= test_rbtree.cpp test_rbtree_node.cpp test_rbtree_iterators.cpp
 
 ALL_TEST_FILES		:= $(TEST_VECTOR_FILES) $(TEST_RBTREE_FILES)
 

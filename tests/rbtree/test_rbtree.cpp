@@ -6,41 +6,11 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 19:30:00 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/14 11:51:49 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/14 20:31:35 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test_utils.hpp"
-
-void build_lorenipsum_tree(RB_TREE &tree)
-{
-    tree.insert_node(TYPE("L", 'L'));
-    tree.insert_node(TYPE("O", 'O'));
-    tree.insert_node(TYPE("R", 'R'));
-    tree.insert_node(TYPE("E", 'E'));
-    tree.insert_node(TYPE("N", 'N'));
-    tree.insert_node(TYPE("I", 'I'));
-    tree.insert_node(TYPE("P", 'P'));
-    tree.insert_node(TYPE("S", 'S'));
-    tree.insert_node(TYPE("U", 'U'));
-    tree.insert_node(TYPE("M", 'M'));
-}
-
-void print_tree(RB_NODE *node, std::string const &indent, bool last)
-{
-    if (!node || KOV<TYPE>()(node->value) == PRINT_EMPTY)
-        return;
-    std::cout << indent;
-    std::cout << (last ? "R└─────" : "L├─────");
-    std::string scolor = node->color ? BOLDRED "RED" RESET : BOLDBLACK "BLACK" RESET;
-    std::cout << CYAN "[" << KOV<TYPE>()(node->value) << "]" RESET << '=';
-    std::cout << GREEN "'" << VOV<TYPE>()(node->value) << "'" RESET;
-    std::cout << "(" << scolor << ")" << std::endl;
-    print_tree(node->left, (indent + (last ? "      " : " │     ")), false);
-    print_tree(node->right, (indent + (last ? "      " : " │     ")), true);
-}
-
-void print_tree(RB_NODE *node) { print_tree(node, "", true); }
 
 TEST_CASE("test rb_tree empty tree has it's root equal to NIL")
 {

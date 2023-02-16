@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 22:37:23 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/14 20:02:46 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:18:21 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,54 @@ template <RB_TREE_TEMPLATE>
 typename RB_TREE_CLASS::const_node_pointer RB_TREE_CLASS::predecessor(const_node_pointer x)
 {
     return (node::predecessor(x));
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::iterator RB_TREE_CLASS::begin(void)
+{
+    return (const_iterator(minimum(_root)));
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::const_iterator RB_TREE_CLASS::begin(void) const
+{
+    return (const_iterator(minimum(_root)));
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::iterator RB_TREE_CLASS::end(void)
+{
+    return (iterator(_NIL));
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::const_iterator RB_TREE_CLASS::end(void) const
+{
+    return (const_iterator(_NIL));
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::reverse_iterator RB_TREE_CLASS::rbegin(void)
+{
+    return (reverse_iterator(end()));
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::const_reverse_iterator RB_TREE_CLASS::rbegin(void) const
+{
+    return (const_reverse_iterator(end()));
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::reverse_iterator RB_TREE_CLASS::rend(void)
+{
+    return (reverse_iterator(begin()));
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::const_reverse_iterator RB_TREE_CLASS::rend(void) const
+{
+    return (const_reverse_iterator(begin()));
 }
 
 template <RB_TREE_TEMPLATE>

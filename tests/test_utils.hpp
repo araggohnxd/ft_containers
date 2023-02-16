@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:25:03 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/11 22:02:28 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/15 19:43:15 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,9 @@ struct Select1st {
         typename Pair::first_type       &operator()(Pair &x) const { return x.first; }
         const typename Pair::first_type &operator()(Pair const &x) const { return x.first; }
 };
+
+void build_lorenipsum_tree(RB_TREE &tree);
+void print_tree(RB_NODE *node, std::string const &indent, bool last);
+void print_tree(RB_NODE *node);
 
 #endif /* TEST_UTILS_HPP */
