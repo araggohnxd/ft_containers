@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:57:01 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/03 19:19:51 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/15 19:02:44 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 namespace ft {
 
 template <typename Iterator>
-reverse_iterator<Iterator>::reverse_iterator(void) : _ptr(NULL)
+reverse_iterator<Iterator>::reverse_iterator(void) : _ptr()
 {
 }
 
@@ -117,7 +117,7 @@ typename reverse_iterator<Iterator>::reference reverse_iterator<Iterator>::opera
 template <typename Iterator>
 typename reverse_iterator<Iterator>::pointer reverse_iterator<Iterator>::operator->(void) const
 {
-    return (--_ptr);
+    return (&(operator*()));
 }
 
 template <typename Iterator>
