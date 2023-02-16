@@ -9,7 +9,6 @@ SOURCE_FILES		+= random_access_iterator.hpp random_access_iterator.tpp
 SOURCE_FILES		+= lexicographical_compare.hpp equal.hpp algorithm.hpp
 SOURCE_FILES		+= type_traits.hpp utility.hpp pair.hpp pair.tpp
 SOURCE_FILES		+= rb_tree.hpp rb_tree.tpp rb_tree_node.hpp rb_tree_node.tpp
-SOURCE_FILES		+= rb_tree_reverse_iterator.hpp rb_tree_reverse_iterator.tpp
 SOURCE_FILES		+= rb_tree_iterator.hpp rb_tree_iterator.tpp vector.hpp vector.tpp
 
 TEST_DIRS			:= . vector rbtree
@@ -63,11 +62,10 @@ fclean:				clean
 
 re:					fclean all
 
-test:				all
+test:				re
 					./$(NAME)
 
-vgtest:				all
+vgtest:				re
 					valgrind ./$(NAME) -nt
-
 
 .PHONY:				all clean fclean re test vgtest
