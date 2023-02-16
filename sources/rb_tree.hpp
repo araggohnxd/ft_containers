@@ -67,15 +67,6 @@ class rb_tree {
         node_pointer nil(void) const;
         size_type    size(void) const;
 
-        node_pointer       maximum(node_pointer x);
-        const_node_pointer maximum(const_node_pointer x);
-        node_pointer       minimum(node_pointer x);
-        const_node_pointer minimum(const_node_pointer x);
-        node_pointer       successor(node_pointer x);
-        const_node_pointer successor(const_node_pointer x);
-        node_pointer       predecessor(node_pointer x);
-        const_node_pointer predecessor(const_node_pointer x);
-
         iterator               begin(void);
         const_iterator         begin(void) const;
         iterator               end(void);

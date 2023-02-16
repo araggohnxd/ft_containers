@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 22:37:23 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/15 21:18:21 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/16 19:09:17 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void RB_TREE_CLASS::delete_node(key_type const &key)
         x = z->left;
         _transplant(z, z->left); // replace z by its left child
     } else {
-        y                = minimum(z->right); // y is z’s successor
+        y                = node::minimum(z->right); // y is z’s successor
         y_original_color = y->color;
         x                = y->right;
         if (y != z->right) {             // is y farther down the tree?
@@ -112,63 +112,15 @@ typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::search(key_type const &key)
 }
 
 template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::maximum(node_pointer x)
-{
-    return (node::maximum(x));
-}
-
-template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::const_node_pointer RB_TREE_CLASS::maximum(const_node_pointer x)
-{
-    return (node::maximum(x));
-}
-
-template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::minimum(node_pointer x)
-{
-    return (node::minimum(x));
-}
-
-template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::const_node_pointer RB_TREE_CLASS::minimum(const_node_pointer x)
-{
-    return (node::minimum(x));
-}
-
-template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::successor(node_pointer x)
-{
-    return (node::successor(x));
-}
-
-template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::const_node_pointer RB_TREE_CLASS::successor(const_node_pointer x)
-{
-    return (node::successor(x));
-}
-
-template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::predecessor(node_pointer x)
-{
-    return (node::predecessor(x));
-}
-
-template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::const_node_pointer RB_TREE_CLASS::predecessor(const_node_pointer x)
-{
-    return (node::predecessor(x));
-}
-
-template <RB_TREE_TEMPLATE>
 typename RB_TREE_CLASS::iterator RB_TREE_CLASS::begin(void)
 {
-    return (const_iterator(minimum(_root)));
+    return (const_iterator(node::minimum(_root)));
 }
 
 template <RB_TREE_TEMPLATE>
 typename RB_TREE_CLASS::const_iterator RB_TREE_CLASS::begin(void) const
 {
-    return (const_iterator(minimum(_root)));
+    return (const_iterator(node::minimum(_root)));
 }
 
 template <RB_TREE_TEMPLATE>
