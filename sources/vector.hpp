@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:53:31 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/10 20:17:11 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/16 21:25:16 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ bool operator<(vector<T, Alloc> const &lhs, vector<T, Alloc> const &rhs)
 template <typename T, typename Alloc>
 bool operator<=(vector<T, Alloc> const &lhs, vector<T, Alloc> const &rhs)
 {
-    return (lhs < rhs || lhs == rhs);
+    return (!(rhs < lhs));
 }
 
 template <typename T, typename Alloc>
@@ -159,7 +159,7 @@ bool operator>(vector<T, Alloc> const &lhs, vector<T, Alloc> const &rhs)
 template <typename T, typename Alloc>
 bool operator>=(vector<T, Alloc> const &lhs, vector<T, Alloc> const &rhs)
 {
-    return (lhs > rhs || lhs == rhs);
+    return (!(lhs < rhs));
 }
 
 } /* namespace ft */
