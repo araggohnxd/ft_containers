@@ -12,16 +12,16 @@
 
 void build_lorenipsum_tree(RB_TREE &tree)
 {
-    tree.insert_node(TYPE("L", 'L'));
-    tree.insert_node(TYPE("O", 'O'));
-    tree.insert_node(TYPE("R", 'R'));
-    tree.insert_node(TYPE("E", 'E'));
-    tree.insert_node(TYPE("N", 'N'));
-    tree.insert_node(TYPE("I", 'I'));
-    tree.insert_node(TYPE("P", 'P'));
-    tree.insert_node(TYPE("S", 'S'));
-    tree.insert_node(TYPE("U", 'U'));
-    tree.insert_node(TYPE("M", 'M'));
+    tree.insert(TYPE("L", 'L'));
+    tree.insert(TYPE("O", 'O'));
+    tree.insert(TYPE("R", 'R'));
+    tree.insert(TYPE("E", 'E'));
+    tree.insert(TYPE("N", 'N'));
+    tree.insert(TYPE("I", 'I'));
+    tree.insert(TYPE("P", 'P'));
+    tree.insert(TYPE("S", 'S'));
+    tree.insert(TYPE("U", 'U'));
+    tree.insert(TYPE("M", 'M'));
 }
 
 void print_tree(RB_NODE *node, std::string const &indent, bool last)

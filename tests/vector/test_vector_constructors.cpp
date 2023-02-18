@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:20:32 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/05 00:28:55 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/16 13:47:14 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,12 @@ TEST_CASE("test vector templated parametric constructor with an int array")
     std::vector<int> std(n, (n + n_length));
     ft::vector<int>  ft(n, (n + n_length));
 
-    CHECK(ft.size() == std.size());
-    CHECK(ft.capacity() == std.capacity());
-    CHECK(ft.max_size() == std.max_size());
-    CHECK(ft.empty() == std.empty());
-    CHECK(std::equal(ft.begin(), ft.end(), std.begin()));
+    // CHECK(ft.size() == std.size());
+    // CHECK(ft.capacity() == std.capacity());
+    // CHECK(ft.max_size() == std.max_size());
+    // CHECK(ft.empty() == std.empty());
+    // CHECK(std::equal(ft.begin(), ft.end(), std.begin()));
+    compare_vectors(ft, std);
 }
 
 TEST_CASE("test vector templated parametric constructor from a int vector")

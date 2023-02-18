@@ -10,8 +10,9 @@ SOURCE_FILES		+= lexicographical_compare.hpp equal.hpp algorithm.hpp
 SOURCE_FILES		+= type_traits.hpp utility.hpp pair.hpp pair.tpp
 SOURCE_FILES		+= rb_tree.hpp rb_tree.tpp rb_tree_node.hpp rb_tree_node.tpp
 SOURCE_FILES		+= rb_tree_iterator.hpp rb_tree_iterator.tpp vector.hpp vector.tpp
+SOURCE_FILES		+= map.hpp map.tpp
 
-TEST_DIRS			:= . vector rbtree
+TEST_DIRS			:= . vector rbtree map
 TEST_PATH			:= $(addprefix ./tests/, $(TEST_DIRS))
 TEST_HEADER			:= doctest.h test_utils.hpp
 TEST_FILES			:= doctest_main.cpp
@@ -22,12 +23,16 @@ TEST_VECTOR_FILES	+= test_vector_modifiers.cpp test_vector_non_member.cpp
 
 TEST_RBTREE_FILES	:= test_rbtree.cpp test_rbtree_node.cpp test_rbtree_iterators.cpp
 
-ALL_TEST_FILES		:= $(TEST_VECTOR_FILES) $(TEST_RBTREE_FILES)
+TEST_MAP_FILES		:= test_map_constructors.cpp test_map_iterators.cpp
+
+ALL_TEST_FILES		:= $(TEST_VECTOR_FILES) $(TEST_RBTREE_FILES) $(TEST_MAP_FILES)
 
 ifdef VECTOR
 	TEST_FILES += $(TEST_VECTOR_FILES)
 else ifdef RBTREE
 	TEST_FILES += $(TEST_RBTREE_FILES)
+else ifdef MAP
+	TEST_FILES += $(TEST_MAP_FILES)
 else
 	TEST_FILES += $(ALL_TEST_FILES)
 endif
