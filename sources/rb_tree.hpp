@@ -23,6 +23,7 @@
 #include "iterator.hpp"
 #include "rb_tree_iterator.hpp"
 #include "rb_tree_node.hpp"
+#include "utility.hpp"
 #include <memory>
 
 namespace ft {
@@ -55,17 +56,15 @@ class rb_tree {
         typedef ft::reverse_iterator<iterator>                        reverse_iterator;
         typedef ft::reverse_iterator<const_iterator>                  const_reverse_iterator;
 
+        /********************** CONSTRUCTORS, DESTRUCTOR AND ASSIGN OPERATOR **********************/
+
         explicit rb_tree(key_compare const    &comp  = key_compare(),
                          allocator_type const &alloc = allocator_type());
+        rb_tree(rb_tree const &src);
+        rb_tree &operator=(rb_tree const &src);
         ~rb_tree(void);
 
-        node_pointer insert_node(value_type const &value);
-        void         delete_node(key_type const &key);
-        node_pointer search(key_type const &key);
-
-        node_pointer root(void) const;
-        node_pointer nil(void) const;
-        size_type    size(void) const;
+        /**************************************** ITERATORS ***************************************/
 
         iterator               begin(void);
         const_iterator         begin(void) const;
@@ -76,10 +75,51 @@ class rb_tree {
         reverse_iterator       rend(void);
         const_reverse_iterator rend(void) const;
 
+        /**************************************** CAPACITY ****************************************/
+
+        bool      empty(void) const;
+        size_type size(void) const;
+        size_type max_size(void) const;
+
+        /**************************************** MODIFIERS ***************************************/
+
+        pair<iterator, bool> insert(value_type const &value);
+        iterator             insert(iterator position, value_type const &value);
+
+        template <typename Iterator>
+        void insert(Iterator first, Iterator last);
+
+        void erase(key_type const &key);
+        void swap(rb_tree &src);
+        void clear(void);
+
+        /**************************************** OBSERVERS ***************************************/
+
+        key_compare  key_comp(void) const;
+        node_pointer root(void) const;
+        node_pointer nil(void) const;
+
+        /************************************ LOOKUP OPERATIONS ***********************************/
+
+        node_pointer                         find(key_type const &key);
+        size_type                            count(key_type const &key) const;
+        iterator                             lower_bound(key_type const &key);
+        const_iterator                       lower_bound(key_type const &key) const;
+        iterator                             upper_bound(key_type const &key);
+        const_iterator                       upper_bound(key_type const &key) const;
+        pair<iterator, iterator>             equal_range(key_type const &key);
+        pair<const_iterator, const_iterator> equal_range(key_type const &key) const;
+
+        /**************************************** ALLOCATOR ***************************************/
+
+        node_allocator get_allocator(void) const;
+
     private:
-        node_pointer _search(node_pointer node, key_type const &key);
+        node_pointer _find(node_pointer node, key_type const &key);
         node_pointer _create_node(value_type const &value);
+        node_pointer _initialize_nil(void);
         void         _destroy_tree(node_pointer node);
+        iterator     _insert_unique(value_type const &value);
         void         _insert_fixup(node_pointer z);
         void         _insert_fixup_left_child(node_pointer z);
         void         _insert_fixup_right_child(node_pointer z);
@@ -89,6 +129,7 @@ class rb_tree {
         void         _left_rotate(node_pointer x);
         void         _right_rotate(node_pointer x);
         void         _transplant(node_pointer u, node_pointer v);
+        void         _copy(node_pointer x);
 
         node_pointer   _NIL;
         node_pointer   _root;
@@ -96,6 +137,48 @@ class rb_tree {
         key_compare    _key_compare;
         node_allocator _allocator;
 };
+
+template <RB_TREE_TEMPLATE>
+void swap(RB_TREE_CLASS &lhs, RB_TREE_CLASS &rhs)
+{
+    lhs.swap(rhs);
+}
+
+template <RB_TREE_TEMPLATE>
+bool operator==(RB_TREE_CLASS const &lhs, RB_TREE_CLASS const &rhs)
+{
+    return (lhs.size() == rhs.size() && equal(lhs.begin(), lhs.end(), rhs.begin()));
+}
+
+template <RB_TREE_TEMPLATE>
+bool operator!=(RB_TREE_CLASS const &lhs, RB_TREE_CLASS const &rhs)
+{
+    return (!(lhs == rhs));
+}
+
+template <RB_TREE_TEMPLATE>
+bool operator<(RB_TREE_CLASS const &lhs, RB_TREE_CLASS const &rhs)
+{
+    return (lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+}
+
+template <RB_TREE_TEMPLATE>
+bool operator<=(RB_TREE_CLASS const &lhs, RB_TREE_CLASS const &rhs)
+{
+    return (!(rhs < lhs));
+}
+
+template <RB_TREE_TEMPLATE>
+bool operator>(RB_TREE_CLASS const &lhs, RB_TREE_CLASS const &rhs)
+{
+    return (rhs < lhs);
+}
+
+template <RB_TREE_TEMPLATE>
+bool operator>=(RB_TREE_CLASS const &lhs, RB_TREE_CLASS const &rhs)
+{
+    return (!(lhs < rhs));
+}
 
 } /* namespace ft */
 

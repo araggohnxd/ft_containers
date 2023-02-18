@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 22:37:23 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/16 19:09:17 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/17 19:37:34 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #define FT_RB_TREE_TPP
 
 namespace ft {
+
+/************************** CONSTRUCTORS, DESTRUCTOR AND ASSIGN OPERATOR **************************/
 
 template <RB_TREE_TEMPLATE>
 RB_TREE_CLASS::rb_tree(key_compare const &comp, allocator_type const &alloc) :
@@ -23,93 +25,50 @@ RB_TREE_CLASS::rb_tree(key_compare const &comp, allocator_type const &alloc) :
     _key_compare(comp),
     _allocator(alloc)
 {
-    _NIL = _allocator.allocate(1);
-    _allocator.construct(_NIL, node(value_type(), _root, _NIL, _NIL, _NIL, _NIL, black));
+    _NIL  = _initialize_nil();
     _root = _NIL;
+}
+
+template <RB_TREE_TEMPLATE>
+RB_TREE_CLASS::rb_tree(rb_tree const &src) :
+    _NIL(NULL),
+    _root(NULL),
+    _size(0),
+    _key_compare(src._key_compare),
+    _allocator(src._allocator)
+{
+    _NIL  = _initialize_nil();
+    _root = _NIL;
+    _copy(src._root);
+    _size = src._size;
+}
+
+template <RB_TREE_TEMPLATE>
+RB_TREE_CLASS &RB_TREE_CLASS::operator=(rb_tree const &src)
+{
+    if (this == &src)
+        return (*this);
+    clear();
+    _allocator.destroy(_NIL);
+    _allocator.deallocate(_NIL, 1);
+    _allocator = src._allocator;
+    _NIL       = _initialize_nil();
+    _root      = _NIL;
+    _copy(src._root);
+    _size        = src._size;
+    _key_compare = src._key_compare;
+    return (*this);
 }
 
 template <RB_TREE_TEMPLATE>
 RB_TREE_CLASS::~rb_tree(void)
 {
-    if (_root && _root != _NIL)
-        _destroy_tree(_root);
-    if (_NIL) {
-        _allocator.destroy(_NIL);
-        _allocator.deallocate(_NIL, 1);
-    }
+    clear();
+    _allocator.destroy(_NIL);
+    _allocator.deallocate(_NIL, 1);
 }
 
-template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::insert_node(value_type const &value)
-{
-    node_pointer z = _create_node(value);
-    node_pointer y = _NIL;
-    node_pointer x = _root;
-
-    while (x && x != _NIL) {
-        y = x;
-        if (_key_compare(KeyOfValue()(z->value), KeyOfValue()(x->value)))
-            x = x->left;
-        else
-            x = x->right;
-    }
-    z->parent = y;
-    if (!y || y == _NIL)
-        _root = z;
-    else if (_key_compare(KeyOfValue()(z->value), KeyOfValue()(y->value)))
-        y->left = z;
-    else
-        y->right = z;
-    ++_size;
-    _NIL->root = _root;
-    _insert_fixup(z);
-    return (z);
-}
-
-template <RB_TREE_TEMPLATE>
-void RB_TREE_CLASS::delete_node(key_type const &key)
-{
-    node_pointer    z                = search(key);
-    node_pointer    y                = z;
-    node_pointer    x                = NULL;
-    node_color_type y_original_color = y->color;
-
-    if (z == _NIL)
-        return;
-    if (z->left == _NIL) {
-        x = z->right;
-        _transplant(z, z->right); // replace z by its right child
-    } else if (z->right == _NIL) {
-        x = z->left;
-        _transplant(z, z->left); // replace z by its left child
-    } else {
-        y                = node::minimum(z->right); // y is z’s successor
-        y_original_color = y->color;
-        x                = y->right;
-        if (y != z->right) {             // is y farther down the tree?
-            _transplant(y, y->right);    //  replace y by its right child
-            y->right         = z->right; //  z’s right child becomes
-            y->right->parent = y;        //  y’s right child
-        } else
-            x->parent = y;         // in case x is NIL
-        _transplant(z, y);         //  replace z by its successor y
-        y->left         = z->left; //  and give z’s left child to y,
-        y->left->parent = y;       //  which had no left child
-        y->color        = z->color;
-    }
-    _allocator.destroy(z);
-    _allocator.deallocate(z, 1);
-    --_size;
-    _NIL->root = _root;
-    if (y_original_color == black) // if any red-black violations occur,
-        _delete_fixup(x);          // correct them
-}
-
-template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::search(key_type const &key)
-{
-    return (_search(_root, key));
-}
+/******************************************** ITERATORS *******************************************/
 
 template <RB_TREE_TEMPLATE>
 typename RB_TREE_CLASS::iterator RB_TREE_CLASS::begin(void)
@@ -159,14 +118,252 @@ typename RB_TREE_CLASS::const_reverse_iterator RB_TREE_CLASS::rend(void) const
     return (const_reverse_iterator(begin()));
 }
 
+/******************************************** CAPACITY ********************************************/
+
 template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::_search(node_pointer node, key_type const &key)
+bool RB_TREE_CLASS::empty(void) const
+{
+    return (!_size);
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::size_type RB_TREE_CLASS::size(void) const
+{
+    return (_size);
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::size_type RB_TREE_CLASS::max_size(void) const
+{
+    return (_allocator.max_size());
+}
+
+/******************************************** MODIFIERS *******************************************/
+
+template <RB_TREE_TEMPLATE>
+pair<typename RB_TREE_CLASS::iterator, bool> RB_TREE_CLASS::insert(value_type const &value)
+{
+    iterator it(find(value.first));
+
+    if (it != end())
+        return (ft::make_pair(it, false));
+    return (ft::make_pair(iterator(_insert_unique(value)), true));
+}
+
+// TODO: use hint
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::iterator RB_TREE_CLASS::insert(iterator position, value_type const &value)
+{
+    (void)position;
+    return (KeyOfValue()(insert(value)));
+}
+
+template <RB_TREE_TEMPLATE>
+template <typename Iterator>
+void RB_TREE_CLASS::insert(Iterator first, Iterator last)
+{
+    while (first != last)
+        insert(*first++);
+}
+
+template <RB_TREE_TEMPLATE>
+void RB_TREE_CLASS::erase(key_type const &key)
+{
+    node_pointer    z                = find(key);
+    node_pointer    y                = z;
+    node_pointer    x                = NULL;
+    node_color_type y_original_color = y->color;
+
+    if (z == _NIL)
+        return;
+    if (z->left == _NIL) {
+        x = z->right;
+        _transplant(z, z->right); // replace z by its right child
+    } else if (z->right == _NIL) {
+        x = z->left;
+        _transplant(z, z->left); // replace z by its left child
+    } else {
+        y                = node::minimum(z->right); // y is z’s successor
+        y_original_color = y->color;
+        x                = y->right;
+        if (y != z->right) {             // is y farther down the tree?
+            _transplant(y, y->right);    //  replace y by its right child
+            y->right         = z->right; //  z’s right child becomes
+            y->right->parent = y;        //  y’s right child
+        } else
+            x->parent = y;         // in case x is NIL
+        _transplant(z, y);         //  replace z by its successor y
+        y->left         = z->left; //  and give z’s left child to y,
+        y->left->parent = y;       //  which had no left child
+        y->color        = z->color;
+    }
+    _allocator.destroy(z);
+    _allocator.deallocate(z, 1);
+    --_size;
+    _NIL->root = _root;
+    if (y_original_color == black) // if any red-black violations occur,
+        _delete_fixup(x);          // correct them
+}
+
+template <RB_TREE_TEMPLATE>
+void RB_TREE_CLASS::swap(rb_tree &src)
+{
+    node_allocator tmp_alloc   = src._allocator;
+    node_pointer   tmp_root    = src._root;
+    node_pointer   tmp_nil     = src._NIL;
+    size_type      tmp_size    = src._size;
+    key_compare    tmp_compare = src._key_compare;
+
+    src._allocator   = _allocator;
+    src._root        = _root;
+    src._NIL         = _NIL;
+    src._size        = _size;
+    src._key_compare = _key_compare;
+    _allocator       = tmp_alloc;
+    _root            = tmp_root;
+    _NIL             = tmp_nil;
+    _size            = tmp_size;
+    _key_compare     = tmp_compare;
+}
+
+template <RB_TREE_TEMPLATE>
+void RB_TREE_CLASS::clear(void)
+{
+    _destroy_tree(_root);
+    _root = _NIL;
+    _size = 0;
+}
+
+/******************************************** OBSERVERS *******************************************/
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::key_compare RB_TREE_CLASS::key_comp(void) const
+{
+    return (_key_compare);
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::root(void) const
+{
+    return (_root);
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::nil(void) const
+{
+    return (_NIL);
+}
+
+/**************************************** LOOKUP OPERATIONS ***************************************/
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::find(key_type const &key)
+{
+    return (_find(_root, key));
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::size_type RB_TREE_CLASS::count(key_type const &key) const
+{
+    return (find(key) != _NIL);
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::iterator RB_TREE_CLASS::lower_bound(key_type const &key)
+{
+    node_pointer x = _root;
+    node_pointer y = _NIL;
+
+    while (x != _NIL) {
+        if (!_key_compare(KeyOfValue()(x->value), key)) {
+            y = x;
+            x = x->left;
+        } else
+            x = x->right;
+    }
+    return (iterator(y));
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::const_iterator RB_TREE_CLASS::lower_bound(key_type const &key) const
+{
+    node_pointer x = _root;
+    node_pointer y = _NIL;
+
+    while (x != _NIL) {
+        if (!_key_compare(KeyOfValue()(x->value), key)) {
+            y = x;
+            x = x->left;
+        } else
+            x = x->right;
+    }
+    return (const_iterator(y));
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::iterator RB_TREE_CLASS::upper_bound(key_type const &key)
+{
+    node_pointer x = _root;
+    node_pointer y = _NIL;
+
+    while (x != _NIL) {
+        if (_key_compare(key, KeyOfValue()(x->value))) {
+            y = x;
+            x = x->left;
+        } else
+            x = x->right;
+    }
+    return (iterator(y));
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::const_iterator RB_TREE_CLASS::upper_bound(key_type const &key) const
+{
+    node_pointer x = _root;
+    node_pointer y = _NIL;
+
+    while (x != _NIL) {
+        if (_key_compare(key, KeyOfValue()(x->value))) {
+            y = x;
+            x = x->left;
+        } else
+            x = x->right;
+    }
+    return (const_iterator(y));
+}
+
+template <RB_TREE_TEMPLATE>
+pair<typename RB_TREE_CLASS::iterator, typename RB_TREE_CLASS::iterator>
+RB_TREE_CLASS::equal_range(key_type const &key)
+{
+    return (pair<iterator, iterator>(lower_bound(key), upper_bound(key)));
+}
+
+template <RB_TREE_TEMPLATE>
+pair<typename RB_TREE_CLASS::const_iterator, typename RB_TREE_CLASS::const_iterator>
+RB_TREE_CLASS::equal_range(key_type const &key) const
+{
+    return (pair<const_iterator, const_iterator>(lower_bound(key), upper_bound(key)));
+}
+
+/******************************************** ALLOCATOR *******************************************/
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::node_allocator RB_TREE_CLASS::get_allocator(void) const
+{
+    return (_allocator);
+}
+
+/***************************************** PRIVATE METHODS ****************************************/
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::_find(node_pointer node, key_type const &key)
 {
     if (!node || node == _NIL || KeyOfValue()(node->value) == key)
         return (node);
     if (_key_compare(key, KeyOfValue()(node->value)))
-        return (_search(node->left, key));
-    return (_search(node->right, key));
+        return (_find(node->left, key));
+    return (_find(node->right, key));
 }
 
 template <RB_TREE_TEMPLATE>
@@ -179,6 +376,15 @@ typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::_create_node(value_type cons
 }
 
 template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::_initialize_nil(void)
+{
+    node_pointer nil = _allocator.allocate(1);
+
+    _allocator.construct(nil, node(value_type(), _root, nil, nil, nil, nil, black));
+    return (nil);
+}
+
+template <RB_TREE_TEMPLATE>
 void RB_TREE_CLASS::_destroy_tree(node_pointer node)
 {
     if (!node || node == _NIL)
@@ -187,7 +393,33 @@ void RB_TREE_CLASS::_destroy_tree(node_pointer node)
     _destroy_tree(node->left);
     _allocator.destroy(node);
     _allocator.deallocate(node, 1);
-    --_size;
+}
+
+template <RB_TREE_TEMPLATE>
+typename RB_TREE_CLASS::iterator RB_TREE_CLASS::_insert_unique(value_type const &value)
+{
+    node_pointer z = _create_node(value);
+    node_pointer y = _NIL;
+    node_pointer x = _root;
+
+    while (x && x != _NIL) {
+        y = x;
+        if (_key_compare(KeyOfValue()(z->value), KeyOfValue()(x->value)))
+            x = x->left;
+        else
+            x = x->right;
+    }
+    z->parent = y;
+    if (!y || y == _NIL)
+        _root = z;
+    else if (_key_compare(KeyOfValue()(z->value), KeyOfValue()(y->value)))
+        y->left = z;
+    else
+        y->right = z;
+    ++_size;
+    _NIL->root = _root;
+    _insert_fixup(z);
+    return (iterator(z));
 }
 
 template <RB_TREE_TEMPLATE>
@@ -367,21 +599,13 @@ void RB_TREE_CLASS::_transplant(node_pointer u, node_pointer v)
 }
 
 template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::root(void) const
+void RB_TREE_CLASS::_copy(node_pointer x)
 {
-    return (_root);
-}
-
-template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::nil(void) const
-{
-    return (_NIL);
-}
-
-template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::size_type RB_TREE_CLASS::size(void) const
-{
-    return (_size);
+    if (x == x->nil)
+        return;
+    insert(x->value);
+    _copy(x->left);
+    _copy(x->right);
 }
 
 } /* namespace ft */
