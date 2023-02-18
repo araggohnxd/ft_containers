@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 21:15:08 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/17 23:49:09 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/17 23:56:50 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,32 @@ SCENARIO("test map iterators")
             {
                 CHECK(it_ft->first == 'U');
                 CHECK(it_ft->second == "U");
+            }
+        }
+
+        WHEN("iterating through base map with iterator and calculating its size")
+        {
+            ft::map<char, std::string>::iterator it_ft    = base_ft.begin();
+            size_t                                       map_size = 0;
+
+            THEN("final size should equal map's true size")
+            {
+                for (; it_ft != base_ft.end(); ++it_ft)
+                    ++map_size;
+                CHECK(map_size == base_ft.size());
+            }
+        }
+
+        WHEN("iterating through base map with reverse iterator and calculating its size")
+        {
+            ft::map<char, std::string>::reverse_iterator it_ft    = base_ft.rbegin();
+            size_t                                       map_size = 0;
+
+            THEN("final size should equal map's true size")
+            {
+                for (; it_ft != base_ft.rend(); ++it_ft)
+                    ++map_size;
+                CHECK(map_size == base_ft.size());
             }
         }
     }
