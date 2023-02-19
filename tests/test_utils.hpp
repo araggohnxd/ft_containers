@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:25:03 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/18 22:26:02 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/19 19:39:49 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 #include "doctest.h"
 #include "map.hpp"
 #include "rb_tree.hpp"
+#include "stack.hpp"
 #include "utility.hpp"
 #include "vector.hpp"
 #include <iostream>
 #include <map>
+#include <stack>
 #include <string>
 #include <vector>
 
@@ -30,16 +32,14 @@
 #define BOLDBLACK "\033[1m\033[30m"
 #define YELLOW    "\033[1m\033[33m"
 
-#define KEY         char
-#define VALUE       std::string
-#define TYPE        ft::pair<KEY, VALUE>
-#define COMPARE     std::less<KEY>
-#define NEWLINE     std::cout << "\n";
-#define PRINT_EMPTY ""
-#define KOV         _KeyOfValue
-#define VOV         _ValueOfValue
-#define RB_TREE     ft::rb_tree<KEY, TYPE, KOV<TYPE>, COMPARE>
-#define RB_NODE     ft::rb_tree_node<TYPE>
+#define KEY     char
+#define VALUE   std::string
+#define TYPE    ft::pair<KEY, VALUE>
+#define COMPARE std::less<KEY>
+#define KOV     _KeyOfValue
+#define VOV     _ValueOfValue
+#define RB_TREE ft::rb_tree<KEY, TYPE, KOV<TYPE>, COMPARE>
+#define RB_NODE ft::rb_tree_node<TYPE>
 
 template <typename T>
 struct _KeyOfValue {
@@ -76,6 +76,14 @@ void compare_vectors(VecL &lhs, VecR &rhs)
     CHECK(std::equal(rhs.begin(), rhs.end(), lhs.begin()));
 }
 
+template <typename StackL, typename StackR>
+void compare_stacks(StackL &lhs, StackR &rhs)
+{
+    CHECK(lhs.size() == rhs.size());
+    CHECK(lhs.empty() == rhs.empty());
+    CHECK(lhs.top() == rhs.top());
+}
+
 template <typename MapL, typename MapR>
 void compare_maps(MapL &lhs, MapR &rhs)
 {
@@ -100,7 +108,6 @@ void compare_rbtrees(TreeL &lhs, TreeR &rhs)
     CHECK(std::equal(lhs.begin(), lhs.end(), rhs.begin()));
     CHECK(std::equal(rhs.begin(), rhs.end(), lhs.begin()));
 }
-
 
 /// @brief Populates a map or a red-black tree with the values 'LORENIPSUM'
 /// @tparam Data A map or red-black tree of type `pair<char, std::string>`
