@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:25:03 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/19 19:39:49 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/19 20:18:03 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,6 @@ void compare_vectors(VecL &lhs, VecR &rhs)
     CHECK(lhs.empty() == rhs.empty());
     CHECK(std::equal(lhs.begin(), lhs.end(), rhs.begin()));
     CHECK(std::equal(rhs.begin(), rhs.end(), lhs.begin()));
-}
-
-template <typename StackL, typename StackR>
-void compare_stacks(StackL &lhs, StackR &rhs)
-{
-    CHECK(lhs.size() == rhs.size());
-    CHECK(lhs.empty() == rhs.empty());
-    CHECK(lhs.top() == rhs.top());
 }
 
 template <typename MapL, typename MapR>
