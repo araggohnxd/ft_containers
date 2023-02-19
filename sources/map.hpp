@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:00:48 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/17 21:10:25 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/18 17:46:08 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ class map {
     private:
         template <typename Pair>
         struct select1st {
-                // Key       &operator()(Pair &x) const { return (x.first); }
-                Key const &operator()(Pair const &x) const { return (x.first); }
+                Key       operator()(Pair &x) const { return (x.first); }
+                Key const operator()(Pair const &x) const { return (x.first); }
         };
 
         typedef rb_tree<key_type, value_type, select1st<value_type>, key_compare, Alloc> tree_type;
