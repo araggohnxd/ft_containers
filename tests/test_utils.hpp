@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:25:03 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/17 22:57:22 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/18 22:26:02 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 #define BOLDBLACK "\033[1m\033[30m"
 #define YELLOW    "\033[1m\033[33m"
 
-#define KEY         std::string
-#define VALUE       int
+#define KEY         char
+#define VALUE       std::string
 #define TYPE        ft::pair<KEY, VALUE>
 #define COMPARE     std::less<KEY>
 #define NEWLINE     std::cout << "\n";
@@ -53,67 +53,80 @@ struct _ValueOfValue {
 
 template <typename Pair>
 struct Select1st {
-        typename Pair::first_type       &operator()(Pair &x) const { return (x.first); }
-        const typename Pair::first_type &operator()(Pair const &x) const { return (x.first); }
+        typename Pair::first_type       operator()(Pair &x) const { return (x.first); }
+        const typename Pair::first_type operator()(Pair const &x) const { return (x.first); }
 };
 
-template <typename VEC1, typename VEC2>
-void compare_vectors(VEC1 &v1, VEC2 &v2)
+extern std::map<char, std::string> base_std_map;
+extern ft::map<char, std::string>  base_ft_map;
+
+extern std::map<char, std::string> empty_std_map;
+extern ft::map<char, std::string>  empty_ft_map;
+
+extern RB_TREE base_tree;
+
+template <typename VecL, typename VecR>
+void compare_vectors(VecL &lhs, VecR &rhs)
 {
-    CHECK(v1.size() == v2.size());
-    CHECK(v1.capacity() == v2.capacity());
-    CHECK(v1.max_size() == v2.max_size());
-    CHECK(v1.empty() == v2.empty());
-    CHECK(std::equal(v1.begin(), v1.end(), v2.begin()));
-    CHECK(std::equal(v2.begin(), v2.end(), v1.begin()));
+    CHECK(lhs.size() == rhs.size());
+    CHECK(lhs.capacity() == rhs.capacity());
+    CHECK(lhs.max_size() == rhs.max_size());
+    CHECK(lhs.empty() == rhs.empty());
+    CHECK(std::equal(lhs.begin(), lhs.end(), rhs.begin()));
+    CHECK(std::equal(rhs.begin(), rhs.end(), lhs.begin()));
 }
 
-template <typename MAP1, typename MAP2>
-void compare_maps(MAP1 &m1, MAP2 &m2)
+template <typename MapL, typename MapR>
+void compare_maps(MapL &lhs, MapR &rhs)
 {
-    CHECK(m1.size() == m2.size());
-    CHECK(m1.empty() == m2.empty());
+    CHECK(lhs.size() == rhs.size());
+    CHECK(lhs.empty() == rhs.empty());
 
-    typename MAP1::iterator m1_it = m1.begin();
-    typename MAP2::iterator m2_it = m2.begin();
+    typename MapL::iterator lhs_it = lhs.begin();
+    typename MapR::iterator rhs_it = rhs.begin();
 
-    for (; m1_it != m1.end(); ++m1_it, ++m2_it) {
-        CHECK(m1_it->first == m2_it->first);
-        CHECK(m1_it->second == m2_it->second);
+    for (; lhs_it != lhs.end(); ++lhs_it, ++rhs_it) {
+        CHECK(lhs_it->first == rhs_it->first);
+        CHECK(lhs_it->second == rhs_it->second);
     }
 }
 
-template <typename Key, typename T>
-void compare_rbtrees(ft::rb_tree<Key, T, KOV<T>, COMPARE> &ft1,
-                     ft::rb_tree<Key, T, KOV<T>, COMPARE> &ft2)
+template <typename TreeL, typename TreeR>
+void compare_rbtrees(TreeL &lhs, TreeR &rhs)
 {
-    CHECK(ft1.size() == ft2.size());
-    CHECK(ft1.max_size() == ft2.max_size());
-    CHECK(ft1.empty() == ft2.empty());
-    CHECK(std::equal(ft1.begin(), ft1.end(), ft2.begin()));
-    CHECK(std::equal(ft2.begin(), ft2.end(), ft1.begin()));
+    CHECK(lhs.size() == rhs.size());
+    CHECK(lhs.max_size() == rhs.max_size());
+    CHECK(lhs.empty() == rhs.empty());
+    CHECK(std::equal(lhs.begin(), lhs.end(), rhs.begin()));
+    CHECK(std::equal(rhs.begin(), rhs.end(), lhs.begin()));
 }
 
-template <typename Map>
-void build_lorenipsum_map(Map& map)
-{
-    typedef typename Map::key_type key_type;
-    typedef typename Map::mapped_type mapped_type;
-    typedef typename Map::value_type value_type;
 
-    map.insert(value_type(key_type('L'), mapped_type("L")));
-    map.insert(value_type(key_type('O'), mapped_type("O")));
-    map.insert(value_type(key_type('R'), mapped_type("R")));
-    map.insert(value_type(key_type('E'), mapped_type("E")));
-    map.insert(value_type(key_type('N'), mapped_type("N")));
-    map.insert(value_type(key_type('I'), mapped_type("I")));
-    map.insert(value_type(key_type('P'), mapped_type("P")));
-    map.insert(value_type(key_type('S'), mapped_type("S")));
-    map.insert(value_type(key_type('U'), mapped_type("U")));
-    map.insert(value_type(key_type('M'), mapped_type("M")));
+/// @brief Populates a map or a red-black tree with the values 'LORENIPSUM'
+/// @tparam Data A map or red-black tree of type `pair<char, std::string>`
+/// @param data A reference to the map or red-black tree to be populated
+/// @return A new map or red-black tree with the inserted values
+template <typename Data>
+Data populate(Data &data)
+{
+    typedef typename Data::value_type value_type;
+
+    Data aux;
+
+    aux.insert(value_type('L', "L"));
+    aux.insert(value_type('O', "O"));
+    aux.insert(value_type('R', "R"));
+    aux.insert(value_type('E', "E"));
+    aux.insert(value_type('N', "N"));
+    aux.insert(value_type('I', "I"));
+    aux.insert(value_type('P', "P"));
+    aux.insert(value_type('S', "S"));
+    aux.insert(value_type('U', "U"));
+    aux.insert(value_type('M', "M"));
+    (void)data;
+    return (aux);
 }
 
-void build_lorenipsum_tree(RB_TREE &tree);
 void print_tree(RB_NODE *node, std::string const &indent, bool last);
 void print_tree(RB_NODE *node);
 

@@ -2,6 +2,14 @@
 #define DOCTEST_CONFIG_NO_POSIX_SIGNALS
 #include "test_utils.hpp"
 
+std::map<char, std::string> base_std_map = populate(base_std_map);
+ft::map<char, std::string>  base_ft_map  = populate(base_ft_map);
+
+std::map<char, std::string> empty_std_map;
+ft::map<char, std::string>  empty_ft_map;
+
+RB_TREE base_tree = populate(base_tree);
+
 /*
  * Commented tests work fine but will most likely get Killed in workspaces
  * due to the virtual machine's limited memory.
@@ -10,23 +18,9 @@
  * an environment with more memory available.
  */
 
-void build_lorenipsum_tree(RB_TREE &tree)
-{
-    tree.insert(TYPE("L", 'L'));
-    tree.insert(TYPE("O", 'O'));
-    tree.insert(TYPE("R", 'R'));
-    tree.insert(TYPE("E", 'E'));
-    tree.insert(TYPE("N", 'N'));
-    tree.insert(TYPE("I", 'I'));
-    tree.insert(TYPE("P", 'P'));
-    tree.insert(TYPE("S", 'S'));
-    tree.insert(TYPE("U", 'U'));
-    tree.insert(TYPE("M", 'M'));
-}
-
 void print_tree(RB_NODE *node, std::string const &indent, bool last)
 {
-    if (!node || KOV<TYPE>()(node->value) == PRINT_EMPTY)
+    if (!node || !KOV<TYPE>()(node->value))
         return;
     std::cout << indent;
     std::cout << (last ? "R└─────" : "L├─────");

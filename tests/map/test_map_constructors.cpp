@@ -6,60 +6,45 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:35:40 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/17 23:31:03 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/18 19:06:45 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test_utils.hpp"
 
-SCENARIO("test map constructors and assign operator")
+TEST_CASE("test map default constructor should be equal to stl")
 {
-    GIVEN("lorenipsum maps as base")
-    {
-        std::map<char, std::string> base_std;
-        ft::map<char, std::string>  base_ft;
+    std::map<char, std::string> std;
+    ft::map<char, std::string>  ft;
 
-        build_lorenipsum_map(base_std);
-        build_lorenipsum_map(base_ft);
+    compare_maps(std, ft);
+}
 
-        REQUIRE(base_std.size() == base_ft.size());
-        REQUIRE(base_std.empty() == base_ft.empty());
+TEST_CASE("test map range constructor with values 'lorenipsum' should be equal to stl")
+{
+    std::map<char, std::string> std(base_std_map.begin(), base_std_map.end());
+    ft::map<char, std::string>  ft(base_ft_map.begin(), base_ft_map.end());
 
-        WHEN("calls map default constructor")
-        {
-            std::map<char, std::string> std;
-            ft::map<char, std::string>  ft;
+    compare_maps(std, ft);
+}
 
-            THEN("both maps should be equal") { compare_maps(std, ft); }
-        }
+TEST_CASE("test map copy constructor with values 'lorenipsum' should be equal to stl")
+{
+    std::map<char, std::string> std(base_std_map);
+    ft::map<char, std::string>  ft(base_ft_map);
 
-        WHEN("map range constructor with base map")
-        {
-            std::map<char, std::string> std(base_std.begin(), base_std.end());
-            ft::map<char, std::string>  ft(base_ft.begin(), base_ft.end());
+    compare_maps(std, ft);
+}
 
-            THEN("both maps should be equal") { compare_maps(std, ft); }
-        }
+TEST_CASE("test map assignment operator with values 'lorenipsum' should be equal to stl")
+{
+    std::map<char, std::string> std;
+    ft::map<char, std::string>  ft;
 
-        WHEN("map copy constructor with base map")
-        {
-            std::map<char, std::string> std(base_std);
-            ft::map<char, std::string>  ft(base_ft);
+    std = base_std_map;
+    ft  = base_ft_map;
 
-            THEN("both maps should be equal") { compare_maps(std, ft); }
-        }
-
-        WHEN("map assign operator with base map")
-        {
-            std::map<char, std::string> std;
-            ft::map<char, std::string>  ft;
-
-            std = base_std;
-            ft  = base_ft;
-
-            THEN("both maps should be equal") { compare_maps(std, ft); }
-        }
-    }
+    compare_maps(std, ft);
 }
 
 /* This test requires a specific constructor in map to be able to construct an object
@@ -70,7 +55,7 @@ SCENARIO("test map constructors and assign operator")
 // {
 //     std::map<char, std::string> base;
 
-//     build_lorenipsum_map(base);
+//     populate(base);
 
 //     std::map<char, std::string> std(base.begin(), base.end());
 //     ft::map<char, std::string> ft(base.begin(), base.end());

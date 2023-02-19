@@ -23,7 +23,10 @@ TEST_VECTOR_FILES	+= test_vector_modifiers.cpp test_vector_non_member.cpp
 
 TEST_RBTREE_FILES	:= test_rbtree.cpp test_rbtree_node.cpp test_rbtree_iterators.cpp
 
-TEST_MAP_FILES		:= test_map_constructors.cpp test_map_iterators.cpp
+TEST_MAP_FILES		:= test_map_capacity.cpp test_map_element_access.cpp
+TEST_MAP_FILES		+= test_map_constructors.cpp test_map_iterators.cpp
+TEST_MAP_FILES		+= test_map_lookup.cpp test_map_modifiers.cpp
+TEST_MAP_FILES		+= test_map_non_member.cpp
 
 ALL_TEST_FILES		:= $(TEST_VECTOR_FILES) $(TEST_RBTREE_FILES) $(TEST_MAP_FILES)
 
@@ -41,10 +44,14 @@ OBJECT_PATH			:= ./objects
 OBJECT_FILES		:= $(TEST_FILES:%.cpp=$(OBJECT_PATH)/%.o)
 
 CC					:= c++
-CFLAGS				:= -Wall -Wextra -Werror -std=c++98 -g3
+CFLAGS				:= -Wall -Wextra -Werror -std=c++98
 IFLAGS				:= $(addprefix -I, $(SOURCE_PATH))
 IFLAGS				+= $(addprefix -I, $(TEST_PATH))
 REMOVE				:= rm -rf
+
+ifdef DEBUG
+	CFLAGS += -g3
+endif
 
 VPATH				:= $(SOURCE_PATH) $(TEST_PATH)
 
