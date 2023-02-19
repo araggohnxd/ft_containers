@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 22:37:23 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/17 19:37:34 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/18 22:58:41 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ template <RB_TREE_TEMPLATE>
 typename RB_TREE_CLASS::iterator RB_TREE_CLASS::insert(iterator position, value_type const &value)
 {
     (void)position;
-    return (KeyOfValue()(insert(value)));
+    return (insert(value).first);
 }
 
 template <RB_TREE_TEMPLATE>
@@ -265,7 +265,7 @@ typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::find(key_type const &key)
 template <RB_TREE_TEMPLATE>
 typename RB_TREE_CLASS::size_type RB_TREE_CLASS::count(key_type const &key) const
 {
-    return (find(key) != _NIL);
+    return (_find(_root, key) != _NIL);
 }
 
 template <RB_TREE_TEMPLATE>
@@ -357,13 +357,13 @@ typename RB_TREE_CLASS::node_allocator RB_TREE_CLASS::get_allocator(void) const
 /***************************************** PRIVATE METHODS ****************************************/
 
 template <RB_TREE_TEMPLATE>
-typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::_find(node_pointer node, key_type const &key)
+typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::_find(node_pointer x, key_type const &key) const
 {
-    if (!node || node == _NIL || KeyOfValue()(node->value) == key)
-        return (node);
-    if (_key_compare(key, KeyOfValue()(node->value)))
-        return (_find(node->left, key));
-    return (_find(node->right, key));
+    if (!x || x == _NIL || KeyOfValue()(x->value) == key)
+        return (x);
+    if (_key_compare(key, KeyOfValue()(x->value)))
+        return (_find(x->left, key));
+    return (_find(x->right, key));
 }
 
 template <RB_TREE_TEMPLATE>

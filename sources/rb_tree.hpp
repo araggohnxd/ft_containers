@@ -13,18 +13,18 @@
 #ifndef FT_RB_TREE_HPP
 #define FT_RB_TREE_HPP
 
-#include "rb_tree.hpp"
-
 #define RB_TREE_TEMPLATE                                                                           \
  typename Key, typename Value, typename KeyOfValue, typename Compare, typename Alloc
 
 #define RB_TREE_CLASS rb_tree<Key, Value, KeyOfValue, Compare, Alloc>
 
+#include "algorithm.hpp"
 #include "iterator.hpp"
 #include "rb_tree_iterator.hpp"
 #include "rb_tree_node.hpp"
 #include "utility.hpp"
 #include <memory>
+#include <stdexcept>
 
 namespace ft {
 
@@ -115,7 +115,7 @@ class rb_tree {
         node_allocator get_allocator(void) const;
 
     private:
-        node_pointer _find(node_pointer node, key_type const &key);
+        node_pointer _find(node_pointer x, key_type const &key) const;
         node_pointer _create_node(value_type const &value);
         node_pointer _initialize_nil(void);
         void         _destroy_tree(node_pointer node);
@@ -147,7 +147,7 @@ void swap(RB_TREE_CLASS &lhs, RB_TREE_CLASS &rhs)
 template <RB_TREE_TEMPLATE>
 bool operator==(RB_TREE_CLASS const &lhs, RB_TREE_CLASS const &rhs)
 {
-    return (lhs.size() == rhs.size() && equal(lhs.begin(), lhs.end(), rhs.begin()));
+    return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 }
 
 template <RB_TREE_TEMPLATE>
@@ -159,7 +159,7 @@ bool operator!=(RB_TREE_CLASS const &lhs, RB_TREE_CLASS const &rhs)
 template <RB_TREE_TEMPLATE>
 bool operator<(RB_TREE_CLASS const &lhs, RB_TREE_CLASS const &rhs)
 {
-    return (lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+    return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 }
 
 template <RB_TREE_TEMPLATE>

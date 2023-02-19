@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:48:46 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/17 21:10:19 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/18 22:46:46 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ MAP_CLASS::map(Iterator              first,
 template <MAP_TEMPLATE>
 MAP_CLASS::map(map const &src) : _tree(tree_type(src._tree))
 {
-    // *this = src;
 }
 
 template <MAP_TEMPLATE>
@@ -48,11 +47,6 @@ MAP_CLASS &MAP_CLASS::operator=(map const &src)
         return (*this);
     _tree = src._tree;
     return (*this);
-    // if (this == &src)
-    //     return (*this);
-    // clear();
-    // insert(src.begin(), src.end());
-    // return (*this);
 }
 
 template <MAP_TEMPLATE>
@@ -136,14 +130,16 @@ typename MAP_CLASS::size_type MAP_CLASS::max_size(void) const
 template <MAP_TEMPLATE>
 typename MAP_CLASS::mapped_type &MAP_CLASS::operator[](key_type const &key)
 {
-    return (*((insert(make_pair(key, mapped_type()))).first));
+    return ((insert(ft::make_pair(key, mapped_type())).first)->second);
 }
 
 template <MAP_TEMPLATE>
 typename MAP_CLASS::mapped_type &MAP_CLASS::at(key_type const &key)
 {
     iterator it = find(key);
-    throw std::out_of_range("map::at()");
+
+    if (it == end())
+        throw std::out_of_range("map::at()");
     return (it->second);
 }
 
@@ -244,7 +240,7 @@ typename MAP_CLASS::const_iterator MAP_CLASS::find(key_type const &key) const
 template <MAP_TEMPLATE>
 typename MAP_CLASS::size_type MAP_CLASS::count(key_type const &key) const
 {
-    return (_tree.count());
+    return (_tree.count(key));
 }
 
 template <MAP_TEMPLATE>
