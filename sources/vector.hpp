@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:53:31 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/16 21:25:16 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/18 23:27:10 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void swap(vector<T, Alloc> &lhs, vector<T, Alloc> &rhs)
 template <typename T, typename Alloc>
 bool operator==(vector<T, Alloc> const &lhs, vector<T, Alloc> const &rhs)
 {
-    return (lhs.size() == rhs.size() && equal(lhs.begin(), lhs.end(), rhs.begin()));
+    return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 }
 
 template <typename T, typename Alloc>
@@ -141,7 +141,7 @@ bool operator!=(vector<T, Alloc> const &lhs, vector<T, Alloc> const &rhs)
 template <typename T, typename Alloc>
 bool operator<(vector<T, Alloc> const &lhs, vector<T, Alloc> const &rhs)
 {
-    return (lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+    return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 }
 
 template <typename T, typename Alloc>
