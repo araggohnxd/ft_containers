@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:01:01 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/10 20:18:00 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:30:40 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #define FT_VECTOR_TPP
 
 #include "vector.hpp"
-#include <iostream>
 
 namespace ft {
 

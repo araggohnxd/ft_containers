@@ -14,7 +14,6 @@
 #define FT_RB_TREE_NODE_HPP
 
 #include <cstddef>
-#include <iostream>
 
 namespace ft {
 

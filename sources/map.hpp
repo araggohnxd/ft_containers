@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:00:48 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/18 17:46:08 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:29:31 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #define FT_MAP_HPP
 
 #include "rb_tree.hpp"
-#include "utility.hpp"
 
 #define MAP_TEMPLATE typename Key, typename T, typename Compare, typename Alloc
 
