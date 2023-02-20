@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:00:48 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/20 11:53:12 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:44:32 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,15 @@ class set {
 
         explicit set(key_compare const    &comp  = key_compare(),
                      allocator_type const &alloc = allocator_type());
-
         template <class Iterator>
         set(Iterator              first,
             Iterator              last,
             key_compare const    &comp  = key_compare(),
             allocator_type const &alloc = allocator_type());
-
         set(set const &src);
+
         ~set(void);
+
         set &operator=(set const &src);
 
         /**************************************** ITERATORS ***************************************/

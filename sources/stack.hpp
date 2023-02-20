@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:00:48 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/19 19:27:55 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:44:44 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ class stack {
         /******************************* CONSTRUCTORS AND DESTRUCTOR ******************************/
 
         explicit stack(container_type const &container = container_type());
+
         ~stack(void);
 
         /**************************************** CAPACITY ****************************************/

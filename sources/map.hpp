@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:00:48 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/20 12:29:31 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:50:13 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ class map {
 
     private:
         template <typename Pair>
-        struct select1st {
+        struct _select1st {
                 Key       operator()(Pair &x) const { return (x.first); }
                 Key const operator()(Pair const &x) const { return (x.first); }
         };
 
-        typedef rb_tree<key_type, value_type, select1st<value_type>, key_compare, Alloc> tree_type;
+        typedef rb_tree<key_type, value_type, _select1st<value_type>, key_compare, Alloc> tree_type;
 
     public:
         typedef typename tree_type::allocator_type         allocator_type;
@@ -73,16 +73,16 @@ class map {
 
         explicit map(key_compare const    &comp  = key_compare(),
                      allocator_type const &alloc = allocator_type());
-
         template <typename Iterator>
         map(Iterator              first,
             Iterator              last,
             key_compare const    &comp  = key_compare(),
             allocator_type const &alloc = allocator_type());
-
         map(map const &src);
-        map &operator=(map const &src);
+
         ~map(void);
+
+        map &operator=(map const &src);
 
         /**************************************** ITERATORS ***************************************/
 

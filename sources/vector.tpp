@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:01:01 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/20 12:30:40 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:43:07 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include "vector.hpp"
 
 namespace ft {
+
+/********************** CONSTRUCTORS, DESTRUCTOR AND ASSIGN OPERATOR **********************/
 
 template <typename T, typename Alloc>
 vector<T, Alloc>::vector(vector const &src) :
@@ -98,41 +100,105 @@ vector<T, Alloc> &vector<T, Alloc>::operator=(vector const &src)
     return (*this);
 }
 
+/**************************************** ITERATORS ***************************************/
+
 template <typename T, typename Alloc>
-void vector<T, Alloc>::assign(size_type n, T const &value)
+typename vector<T, Alloc>::iterator vector<T, Alloc>::begin(void)
 {
-    if (n > max_size())
-        throw std::length_error("vector::assign()");
+    return (iterator(_data));
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::const_iterator vector<T, Alloc>::begin(void) const
+{
+    return (const_iterator(_data));
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::iterator vector<T, Alloc>::end(void)
+{
+    return (iterator(_data + _size));
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::const_iterator vector<T, Alloc>::end(void) const
+{
+    return (const_iterator(_data + _size));
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::reverse_iterator vector<T, Alloc>::rbegin(void)
+{
+    return (reverse_iterator(end()));
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::const_reverse_iterator vector<T, Alloc>::rbegin(void) const
+{
+    return (const_reverse_iterator(end()));
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::reverse_iterator vector<T, Alloc>::rend(void)
+{
+    return (reverse_iterator(begin()));
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::const_reverse_iterator vector<T, Alloc>::rend(void) const
+{
+    return (const_reverse_iterator(begin()));
+}
+
+/**************************************** CAPACITY ****************************************/
+
+template <typename T, typename Alloc>
+bool vector<T, Alloc>::empty(void) const
+{
+    return (!_size);
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::size_type vector<T, Alloc>::size(void) const
+{
+    return (_size);
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::size_type vector<T, Alloc>::max_size(void) const
+{
+    return (_allocator.max_size());
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::size_type vector<T, Alloc>::capacity(void) const
+{
+    return (_capacity);
+}
+
+template <typename T, typename Alloc>
+void vector<T, Alloc>::reserve(size_type new_cap)
+{
+    pointer   tmp;
+    size_type i;
+
+    if (new_cap <= _capacity)
+        return;
+    if (new_cap > max_size())
+        throw std::length_error("vector::reserve()");
+    tmp = _allocator.allocate(new_cap);
+    if (!tmp)
+        throw std::bad_alloc();
+    for (i = 0; i < _size; ++i)
+        _allocator.construct((tmp + i), *(_data + i));
     clear();
-    reserve(n);
-    for (size_type i = 0; i < n; ++i)
-        _allocator.construct((_data + i), value);
-    _size = n;
+    _allocator.deallocate(_data, _capacity);
+    _data     = tmp;
+    _size     = i;
+    _capacity = new_cap;
 }
 
-template <typename T, typename Alloc>
-template <typename Iter>
-void vector<T, Alloc>::assign(Iter first,
-                              Iter last,
-                              typename enable_if<!is_integral<Iter>::value>::type *)
-{
-
-    size_type distance = ft::distance(first, last);
-
-    if (distance > max_size())
-        throw std::length_error("vector::assign()");
-    clear();
-    reserve(distance);
-    for (size_type i = 0; i < distance; ++i)
-        _allocator.construct((_data + i), *(first + i));
-    _size = distance;
-}
-
-template <typename T, typename Alloc>
-typename vector<T, Alloc>::allocator_type vector<T, Alloc>::get_allocator(void) const
-{
-    return (_allocator);
-}
+/************************************* ELEMENT ACCESS *************************************/
 
 template <typename T, typename Alloc>
 typename vector<T, Alloc>::reference vector<T, Alloc>::at(size_type pos)
@@ -198,98 +264,36 @@ typename vector<T, Alloc>::const_pointer vector<T, Alloc>::data(void) const
     return (_data);
 }
 
-template <typename T, typename Alloc>
-typename vector<T, Alloc>::iterator vector<T, Alloc>::begin(void)
-{
-    return (iterator(_data));
-}
+/**************************************** MODIFIERS ***************************************/
 
 template <typename T, typename Alloc>
-typename vector<T, Alloc>::const_iterator vector<T, Alloc>::begin(void) const
+void vector<T, Alloc>::assign(size_type n, T const &value)
 {
-    return (const_iterator(_data));
-}
-
-template <typename T, typename Alloc>
-typename vector<T, Alloc>::iterator vector<T, Alloc>::end(void)
-{
-    return (iterator(_data + _size));
-}
-
-template <typename T, typename Alloc>
-typename vector<T, Alloc>::const_iterator vector<T, Alloc>::end(void) const
-{
-    return (const_iterator(_data + _size));
-}
-
-template <typename T, typename Alloc>
-typename vector<T, Alloc>::reverse_iterator vector<T, Alloc>::rbegin(void)
-{
-    return (reverse_iterator(end()));
-}
-
-template <typename T, typename Alloc>
-typename vector<T, Alloc>::const_reverse_iterator vector<T, Alloc>::rbegin(void) const
-{
-    return (const_reverse_iterator(end()));
-}
-
-template <typename T, typename Alloc>
-typename vector<T, Alloc>::reverse_iterator vector<T, Alloc>::rend(void)
-{
-    return (reverse_iterator(begin()));
-}
-
-template <typename T, typename Alloc>
-typename vector<T, Alloc>::const_reverse_iterator vector<T, Alloc>::rend(void) const
-{
-    return (const_reverse_iterator(begin()));
-}
-
-template <typename T, typename Alloc>
-bool vector<T, Alloc>::empty(void) const
-{
-    return (!_size);
-}
-
-template <typename T, typename Alloc>
-typename vector<T, Alloc>::size_type vector<T, Alloc>::size(void) const
-{
-    return (_size);
-}
-
-template <typename T, typename Alloc>
-typename vector<T, Alloc>::size_type vector<T, Alloc>::max_size(void) const
-{
-    return (_allocator.max_size());
-}
-
-template <typename T, typename Alloc>
-typename vector<T, Alloc>::size_type vector<T, Alloc>::capacity(void) const
-{
-    return (_capacity);
-}
-
-template <typename T, typename Alloc>
-void vector<T, Alloc>::reserve(size_type new_cap)
-{
-    pointer   tmp;
-    size_type i;
-
-    if (new_cap <= _capacity)
-        return;
-    if (new_cap > max_size())
-        throw std::length_error("vector::reserve()");
-    tmp = _allocator.allocate(new_cap);
-    if (!tmp)
-        throw std::bad_alloc();
-    for (i = 0; i < _size; ++i)
-        _allocator.construct((tmp + i), *(_data + i));
+    if (n > max_size())
+        throw std::length_error("vector::assign()");
     clear();
-    _allocator.deallocate(_data, _capacity);
-    _data     = tmp;
-    _size     = i;
-    _capacity = new_cap;
+    reserve(n);
+    for (size_type i = 0; i < n; ++i)
+        _allocator.construct((_data + i), value);
+    _size = n;
+}
+
+template <typename T, typename Alloc>
+template <typename Iter>
+void vector<T, Alloc>::assign(Iter first,
+                              Iter last,
+                              typename enable_if<!is_integral<Iter>::value>::type *)
+{
+
+    size_type distance = ft::distance(first, last);
+
+    if (distance > max_size())
+        throw std::length_error("vector::assign()");
+    clear();
+    reserve(distance);
+    for (size_type i = 0; i < distance; ++i)
+        _allocator.construct((_data + i), *(first + i));
+    _size = distance;
 }
 
 template <typename T, typename Alloc>
@@ -433,6 +437,14 @@ void vector<T, Alloc>::swap(vector &src)
     _data         = tmp_data;
     _size         = tmp_size;
     _capacity     = tmp_capacity;
+}
+
+/**************************************** ALLOCATOR ***************************************/
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::allocator_type vector<T, Alloc>::get_allocator(void) const
+{
+    return (_allocator);
 }
 
 } /* namespace ft */

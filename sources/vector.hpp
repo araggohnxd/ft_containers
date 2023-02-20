@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:53:31 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/18 23:27:10 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:38:33 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,11 @@ class vector {
         typedef ft::reverse_iterator<iterator>           reverse_iterator;
         typedef ft::reverse_iterator<const_iterator>     const_reverse_iterator;
 
-        /* constructors, destructor and assign operator */
+        /********************** CONSTRUCTORS, DESTRUCTOR AND ASSIGN OPERATOR **********************/
 
-        vector(vector const &src);
         explicit vector(Alloc const &alloc = Alloc());
         explicit vector(size_type n, T const &value = T(), Alloc const &alloc = Alloc());
-
+        vector(vector const &src);
         template <typename Iter>
         vector(Iter         first,
                Iter         last,
@@ -50,19 +49,29 @@ class vector {
                typename enable_if<!is_integral<Iter>::value>::type * = NULL);
 
         ~vector(void);
+
         vector &operator=(vector const &src);
 
-        /* member functions */
+        /**************************************** ITERATORS ***************************************/
 
-        void assign(size_type n, T const &value);
+        iterator               begin(void);
+        const_iterator         begin(void) const;
+        iterator               end(void);
+        const_iterator         end(void) const;
+        reverse_iterator       rbegin(void);
+        const_reverse_iterator rbegin(void) const;
+        reverse_iterator       rend(void);
+        const_reverse_iterator rend(void) const;
 
-        template <typename Iter>
-        void
-        assign(Iter first, Iter last, typename enable_if<!is_integral<Iter>::value>::type * = NULL);
+        /**************************************** CAPACITY ****************************************/
 
-        allocator_type get_allocator(void) const;
+        bool      empty(void) const;
+        size_type size(void) const;
+        size_type max_size(void) const;
+        size_type capacity(void) const;
+        void      reserve(size_type new_cap);
 
-        /* element access */
+        /************************************* ELEMENT ACCESS *************************************/
 
         reference       at(size_type pos);
         const_reference at(size_type pos) const;
@@ -75,31 +84,18 @@ class vector {
         pointer         data(void);
         const_pointer   data(void) const;
 
-        /* iterators */
+        /**************************************** MODIFIERS ***************************************/
 
-        iterator               begin(void);
-        const_iterator         begin(void) const;
-        iterator               end(void);
-        const_iterator         end(void) const;
-        reverse_iterator       rbegin(void);
-        const_reverse_iterator rbegin(void) const;
-        reverse_iterator       rend(void);
-        const_reverse_iterator rend(void) const;
+        void assign(size_type n, T const &value);
+        template <typename Iter>
+        void
+        assign(Iter first, Iter last, typename enable_if<!is_integral<Iter>::value>::type * = NULL);
 
-        /* capacity */
+        void push_back(T const &value);
+        void pop_back(void);
 
-        bool      empty(void) const;
-        size_type size(void) const;
-        size_type max_size(void) const;
-        size_type capacity(void) const;
-        void      reserve(size_type new_cap);
-
-        /* modifiers */
-
-        void     clear(void);
         iterator insert(iterator pos, T const &value);
         void     insert(iterator pos, size_type n, T const &value);
-
         template <typename Iter>
         void insert(iterator pos,
                     Iter     first,
@@ -108,10 +104,14 @@ class vector {
 
         iterator erase(iterator position);
         iterator erase(iterator first, iterator last);
-        void     push_back(T const &value);
-        void     pop_back(void);
-        void     resize(size_type n, value_type value = value_type());
-        void     swap(vector &src);
+
+        void resize(size_type n, value_type value = value_type());
+        void swap(vector &src);
+        void clear(void);
+
+        /**************************************** ALLOCATOR ***************************************/
+
+        allocator_type get_allocator(void) const;
 
     protected:
         pointer        _data;

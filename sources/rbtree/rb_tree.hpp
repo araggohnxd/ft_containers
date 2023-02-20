@@ -59,8 +59,8 @@ class rb_tree {
         explicit rb_tree(key_compare const    &comp  = key_compare(),
                          allocator_type const &alloc = allocator_type());
         rb_tree(rb_tree const &src);
-        rb_tree &operator=(rb_tree const &src);
         ~rb_tree(void);
+        rb_tree &operator=(rb_tree const &src);
 
         /**************************************** ITERATORS ***************************************/
 
