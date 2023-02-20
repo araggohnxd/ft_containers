@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 20:52:31 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/18 22:32:06 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/20 11:32:26 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ TEST_CASE("test map insert() return pair second value is false when value exists
     CHECK(ft_pair.second == false);
 }
 
-TEST_CASE("teset map insert() increases map size by 1 when value doesn't exist")
+TEST_CASE("test map insert() increases map size by 1 when value doesn't exist")
 {
     std::map<char, std::string> std;
     ft::map<char, std::string>  ft;
@@ -70,7 +70,7 @@ TEST_CASE("teset map insert() increases map size by 1 when value doesn't exist")
     CHECK(ft.size() == 1);
 }
 
-TEST_CASE("teset map insert() doesn't increase map size when value already exist")
+TEST_CASE("test map insert() doesn't increase map size when value already exist")
 {
     std::map<char, std::string> std;
     ft::map<char, std::string>  ft;
@@ -137,7 +137,7 @@ TEST_CASE("test map insert() hint return iterator to existing value if it exists
     CHECK(ft.size() == 1); // size shouldn't change since value already existed
 }
 
-TEST_CASE("teset map insert() hint increases map size by 1 when value doesn't exist")
+TEST_CASE("test map insert() hint increases map size by 1 when value doesn't exist")
 {
     std::map<char, std::string> std;
     ft::map<char, std::string>  ft;
@@ -149,7 +149,7 @@ TEST_CASE("teset map insert() hint increases map size by 1 when value doesn't ex
     CHECK(ft.size() == 1);
 }
 
-TEST_CASE("teset map insert() hint doesn't increase map size when value already exist")
+TEST_CASE("test map insert() hint doesn't increase map size when value already exist")
 {
     std::map<char, std::string> std;
     ft::map<char, std::string>  ft;
