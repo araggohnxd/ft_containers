@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 23:13:38 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/18 23:28:21 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:24:15 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,8 @@ TEST_CASE("test map swap() non-member properly swaps between maps of same size w
     std::map<char, std::string> std2 = populate(std2);
     ft::map<char, std::string>  ft2  = populate(ft2);
 
-    std1.swap(std2);
-    ft1.swap(ft2);
+    std::swap(std1, std2);
+    ft::swap(ft1, ft2);
 
     compare_maps(ft1, std1);
 }
