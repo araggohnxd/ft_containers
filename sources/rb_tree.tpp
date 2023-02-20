@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 22:37:23 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/18 22:58:41 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:03:37 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ typename RB_TREE_CLASS::size_type RB_TREE_CLASS::max_size(void) const
 template <RB_TREE_TEMPLATE>
 pair<typename RB_TREE_CLASS::iterator, bool> RB_TREE_CLASS::insert(value_type const &value)
 {
-    iterator it(find(value.first));
+    iterator it(find(KeyOfValue()(value)));
 
     if (it != end())
         return (ft::make_pair(it, false));
