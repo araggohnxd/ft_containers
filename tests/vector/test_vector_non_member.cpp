@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:12:16 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/04 17:37:10 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:38:27 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,10 +204,8 @@ TEST_CASE("test vector swap() non-member properly copies values from same size i
 
     std::swap(std, base_std);
     ft::swap(ft, base_ft);
-    CHECK(ft.size() == std.size());
-    CHECK(ft.capacity() == std.capacity());
-    CHECK(std::equal(ft.begin(), ft.end(), std.begin()));
-    CHECK(std::equal(std.begin(), std.end(), ft.begin()));
+
+    compare_vectors(ft, std);
 }
 
 TEST_CASE("test vector swap() non-member properly copies values from bigger size int vector")
@@ -220,10 +218,8 @@ TEST_CASE("test vector swap() non-member properly copies values from bigger size
 
     std::swap(std, base_std);
     ft::swap(ft, base_ft);
-    CHECK(ft.size() == std.size());
-    CHECK(ft.capacity() == std.capacity());
-    CHECK(std::equal(ft.begin(), ft.end(), std.begin()));
-    CHECK(std::equal(std.begin(), std.end(), ft.begin()));
+
+    compare_vectors(ft, std);
 }
 
 TEST_CASE("test vector swap() non-member properly copies values from smaller size int vector")
@@ -236,10 +232,8 @@ TEST_CASE("test vector swap() non-member properly copies values from smaller siz
 
     std::swap(std, base_std);
     ft::swap(ft, base_ft);
-    CHECK(ft.size() == std.size());
-    CHECK(ft.capacity() == std.capacity());
-    CHECK(std::equal(ft.begin(), ft.end(), std.begin()));
-    CHECK(std::equal(std.begin(), std.end(), ft.begin()));
+
+    compare_vectors(ft, std);
 }
 
 TEST_CASE("test vector swap() non-member properly copies values from same size string vector")
@@ -252,10 +246,8 @@ TEST_CASE("test vector swap() non-member properly copies values from same size s
 
     std::swap(std, base_std);
     ft::swap(ft, base_ft);
-    CHECK(ft.size() == std.size());
-    CHECK(ft.capacity() == std.capacity());
-    CHECK(std::equal(ft.begin(), ft.end(), std.begin()));
-    CHECK(std::equal(std.begin(), std.end(), ft.begin()));
+
+    compare_vectors(ft, std);
 }
 
 TEST_CASE("test vector swap() non-member properly copies values from bigger size string vector")
@@ -268,10 +260,8 @@ TEST_CASE("test vector swap() non-member properly copies values from bigger size
 
     std::swap(std, base_std);
     ft::swap(ft, base_ft);
-    CHECK(ft.size() == std.size());
-    CHECK(ft.capacity() == std.capacity());
-    CHECK(std::equal(ft.begin(), ft.end(), std.begin()));
-    CHECK(std::equal(std.begin(), std.end(), ft.begin()));
+
+    compare_vectors(ft, std);
 }
 
 TEST_CASE("test vector swap() non-member properly copies values from smaller size string vector")
@@ -284,10 +274,8 @@ TEST_CASE("test vector swap() non-member properly copies values from smaller siz
 
     std::swap(std, base_std);
     ft::swap(ft, base_ft);
-    CHECK(ft.size() == std.size());
-    CHECK(ft.capacity() == std.capacity());
-    CHECK(std::equal(ft.begin(), ft.end(), std.begin()));
-    CHECK(std::equal(std.begin(), std.end(), ft.begin()));
+
+    compare_vectors(ft, std);
 }
 
 TEST_CASE("test vector swap() non-member assert that swap creates a deep copy")
