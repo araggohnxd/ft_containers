@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 22:37:23 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/20 12:03:37 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:17:20 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -371,6 +371,8 @@ typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::_create_node(value_type cons
 {
     node_pointer new_node = _allocator.allocate(1);
 
+    if (!new_node)
+        throw std::bad_alloc();
     _allocator.construct(new_node, node(value, _root, _NIL, _NIL, _NIL, _NIL, red));
     return (new_node);
 }
@@ -380,6 +382,8 @@ typename RB_TREE_CLASS::node_pointer RB_TREE_CLASS::_initialize_nil(void)
 {
     node_pointer nil = _allocator.allocate(1);
 
+    if (!nil)
+        throw std::bad_alloc();
     _allocator.construct(nil, node(value_type(), _root, nil, nil, nil, nil, black));
     return (nil);
 }
