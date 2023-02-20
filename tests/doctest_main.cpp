@@ -2,21 +2,19 @@
 #define DOCTEST_CONFIG_NO_POSIX_SIGNALS
 #include "test_utils.hpp"
 
+RB_TREE base_tree = populate(base_tree);
+
 std::map<char, std::string> base_std_map = populate(base_std_map);
 ft::map<char, std::string>  base_ft_map  = populate(base_ft_map);
 
 std::map<char, std::string> empty_std_map;
 ft::map<char, std::string>  empty_ft_map;
 
-RB_TREE base_tree = populate(base_tree);
+std::set<char> base_std_set = populate_set(base_std_set);
+ft::set<char>  base_ft_set  = populate_set(base_ft_set);
 
-/*
- * Commented tests work fine but will most likely get Killed in workspaces
- * due to the virtual machine's limited memory.
- *
- * Feel free to uncomment it if you're running on your local machine or
- * an environment with more memory available.
- */
+std::set<char> empty_std_set;
+ft::set<char>  empty_ft_set;
 
 void print_tree(RB_NODE *node, std::string const &indent, bool last)
 {

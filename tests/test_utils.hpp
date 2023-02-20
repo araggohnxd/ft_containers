@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:25:03 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/19 20:18:03 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/20 11:44:31 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@
 #include "doctest.h"
 #include "map.hpp"
 #include "rb_tree.hpp"
+#include "set.hpp"
 #include "stack.hpp"
 #include "utility.hpp"
 #include "vector.hpp"
 #include <iostream>
 #include <map>
+#include <set>
 #include <stack>
 #include <string>
 #include <vector>
@@ -57,19 +59,35 @@ struct Select1st {
         const typename Pair::first_type operator()(Pair const &x) const { return (x.first); }
 };
 
+extern RB_TREE base_tree;
+
 extern std::map<char, std::string> base_std_map;
 extern ft::map<char, std::string>  base_ft_map;
 
 extern std::map<char, std::string> empty_std_map;
 extern ft::map<char, std::string>  empty_ft_map;
 
-extern RB_TREE base_tree;
+extern std::set<char> base_std_set;
+extern ft::set<char>  base_ft_set;
+
+extern std::set<char> empty_std_set;
+extern ft::set<char>  empty_ft_set;
 
 template <typename VecL, typename VecR>
 void compare_vectors(VecL &lhs, VecR &rhs)
 {
     CHECK(lhs.size() == rhs.size());
     CHECK(lhs.capacity() == rhs.capacity());
+    CHECK(lhs.max_size() == rhs.max_size());
+    CHECK(lhs.empty() == rhs.empty());
+    CHECK(std::equal(lhs.begin(), lhs.end(), rhs.begin()));
+    CHECK(std::equal(rhs.begin(), rhs.end(), lhs.begin()));
+}
+
+template <typename TreeL, typename TreeR>
+void compare_rbtrees(TreeL &lhs, TreeR &rhs)
+{
+    CHECK(lhs.size() == rhs.size());
     CHECK(lhs.max_size() == rhs.max_size());
     CHECK(lhs.empty() == rhs.empty());
     CHECK(std::equal(lhs.begin(), lhs.end(), rhs.begin()));
@@ -91,26 +109,42 @@ void compare_maps(MapL &lhs, MapR &rhs)
     }
 }
 
-template <typename TreeL, typename TreeR>
-void compare_rbtrees(TreeL &lhs, TreeR &rhs)
+template <typename SetL, typename SetR>
+void compare_sets(SetL &lhs, SetR &rhs)
 {
     CHECK(lhs.size() == rhs.size());
-    CHECK(lhs.max_size() == rhs.max_size());
     CHECK(lhs.empty() == rhs.empty());
     CHECK(std::equal(lhs.begin(), lhs.end(), rhs.begin()));
     CHECK(std::equal(rhs.begin(), rhs.end(), lhs.begin()));
 }
 
-/// @brief Populates a map or a red-black tree with the values 'LORENIPSUM'
-/// @tparam Data A map or red-black tree of type `pair<char, std::string>`
-/// @param data A reference to the map or red-black tree to be populated
-/// @return A new map or red-black tree with the inserted values
-template <typename Data>
-Data populate(Data &data)
+template <typename T>
+T populate_set(T &data)
 {
-    typedef typename Data::value_type value_type;
+    typedef typename T::value_type value_type;
 
-    Data aux;
+    T aux;
+
+    aux.insert(value_type('L'));
+    aux.insert(value_type('O'));
+    aux.insert(value_type('R'));
+    aux.insert(value_type('E'));
+    aux.insert(value_type('N'));
+    aux.insert(value_type('I'));
+    aux.insert(value_type('P'));
+    aux.insert(value_type('S'));
+    aux.insert(value_type('U'));
+    aux.insert(value_type('M'));
+    (void)data;
+    return (aux);
+}
+
+template <typename T>
+T populate(T &data)
+{
+    typedef typename T::value_type value_type;
+
+    T aux;
 
     aux.insert(value_type('L', "L"));
     aux.insert(value_type('O', "O"));
