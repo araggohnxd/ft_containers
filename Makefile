@@ -1,6 +1,6 @@
 NAME				:= ft_containers_tests
 
-SOURCE_DIRS			:= . algorithm iterator type_traits utility
+SOURCE_DIRS			:= . algorithm iterator type_traits utility rbtree
 SOURCE_PATH			:= $(addprefix ./sources/, $(SOURCE_DIRS))
 SOURCE_FILES		:= enable_if.hpp integral_constant.hpp is_integral.hpp
 SOURCE_FILES		+= iterator_traits.hpp iterator_base.hpp iterator_functions.hpp
