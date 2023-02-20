@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 20:52:31 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/20 12:02:14 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:21:44 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -448,4 +448,34 @@ TEST_CASE("test set clear() empty map does nothing")
 
     CHECK(ft.size() == 0);
     CHECK(ft.empty() == true);
+}
+
+TEST_CASE("test set size() map with size 10 resizes to 11 when inserted new item")
+{
+    std::set<char> std(base_std_set);
+    ft::set<char> ft(base_ft_set);
+
+    CHECK(ft.size() == std.size());
+    CHECK(ft.size() == 10);
+
+    std.insert('X');
+    ft.insert('X');
+
+    CHECK(ft.size() == std.size());
+    CHECK(ft.size() == 11);
+}
+
+TEST_CASE("test set size() map with size 10 resizes to 9 when erased one item")
+{
+    std::set<char> std(base_std_set);
+    ft::set<char> ft(base_ft_set);
+
+    CHECK(ft.size() == std.size());
+    CHECK(ft.size() == 10);
+
+    std.erase('O');
+    ft.erase('O');
+
+    CHECK(ft.size() == std.size());
+    CHECK(ft.size() == 9);
 }

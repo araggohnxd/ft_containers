@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:48:46 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/18 22:46:46 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:17:31 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,6 @@ pair<typename MAP_CLASS::iterator, bool> MAP_CLASS::insert(value_type const &val
     return (_tree.insert(value));
 }
 
-// TODO: find a way to make this work
 template <MAP_TEMPLATE>
 typename MAP_CLASS::iterator MAP_CLASS::insert(iterator position, value_type const &value)
 {

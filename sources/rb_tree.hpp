@@ -35,7 +35,6 @@ template <typename Key,
           typename Alloc = std::allocator<Value> >
 class rb_tree {
     public:
-        // TODO: see if all of these typedefs are necessary / being used
         typedef Value                                                 value_type;
         typedef Key                                                   key_type;
         typedef Compare                                               key_compare;

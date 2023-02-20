@@ -18,7 +18,6 @@
 
 namespace ft {
 
-// TODO: maybe turn these to uppercase
 enum rb_tree_color { black, red };
 
 template <typename T>
