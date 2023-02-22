@@ -41,7 +41,7 @@ ALL_TEST_FILES		+= $(TEST_RBTREE_FILES)
 ALL_TEST_FILES		+= $(TEST_MAP_FILES)
 ALL_TEST_FILES		+= $(TEST_SET_FILES)
 
-TEST_PERFORMANCE	:= test_vector_performance.cpp
+TEST_PERFORMANCE	:= test_vector_performance.cpp test_stack_performance.cpp
 
 ifdef VECTOR
 	TEST_FILES += $(TEST_VECTOR_FILES)
