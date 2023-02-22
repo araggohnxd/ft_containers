@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:00:48 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/20 12:50:13 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/21 21:50:12 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,15 +111,15 @@ class map {
 
         pair<iterator, bool> insert(value_type const &value);
         iterator             insert(iterator position, value_type const &value);
-
         template <typename Iterator>
         void insert(Iterator first, Iterator last);
 
         void      erase(iterator position);
         size_type erase(key_type const &key);
         void      erase(iterator first, iterator last);
-        void      swap(map &src);
-        void      clear(void);
+
+        void swap(map &src);
+        void clear(void);
 
         /**************************************** OBSERVERS ***************************************/
 
