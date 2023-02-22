@@ -2,6 +2,8 @@
 #define DOCTEST_CONFIG_NO_POSIX_SIGNALS
 #include "test_utils.hpp"
 
+#ifndef STL
+
 RB_TREE base_tree = populate(base_tree);
 
 std::map<char, std::string> base_std_map = populate(base_std_map);
@@ -31,3 +33,5 @@ void print_tree(RB_NODE *node, std::string const &indent, bool last)
 }
 
 void print_tree(RB_NODE *node) { print_tree(node, "", true); }
+
+#endif

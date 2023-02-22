@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:25:03 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/20 11:44:31 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/21 21:15:27 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,7 @@
 #define TEST_UTILS_HPP
 
 #include "doctest.h"
-#include "map.hpp"
-#include "rb_tree.hpp"
-#include "set.hpp"
-#include "stack.hpp"
-#include "utility.hpp"
-#include "vector.hpp"
+#include <ctime>
 #include <iostream>
 #include <map>
 #include <set>
@@ -27,21 +22,46 @@
 #include <string>
 #include <vector>
 
+#ifdef STL
+namespace ft = std;
+# define NS_PRINT "STD"
+#else
+# include "map.hpp"
+# include "rb_tree.hpp"
+# include "set.hpp"
+# include "stack.hpp"
+# include "utility.hpp"
+# include "vector.hpp"
+#endif
+
+#ifndef NS_PRINT
+# define NS_PRINT "FT"
+#endif
+
+#ifndef ITERATIONS
+# define ITERATIONS 100000
+#endif
+
 #define RESET     "\033[0m"
 #define GREEN     "\033[0m\033[32m"
+#define MAGENTA   "\033[0m\033[35m"
 #define CYAN      "\033[0m\033[36m"
-#define BOLDRED   "\033[1m\033[31m"
 #define BOLDBLACK "\033[1m\033[30m"
+#define BOLDRED   "\033[1m\033[31m"
 #define YELLOW    "\033[1m\033[33m"
 
-#define KEY     char
-#define VALUE   std::string
-#define TYPE    ft::pair<KEY, VALUE>
-#define COMPARE std::less<KEY>
-#define KOV     _KeyOfValue
-#define VOV     _ValueOfValue
-#define RB_TREE ft::rb_tree<KEY, TYPE, KOV<TYPE>, COMPARE>
-#define RB_NODE ft::rb_tree_node<TYPE>
+#define TIME_PRINT MAGENTA "Time elapsed for " NS_PRINT " "
+
+#ifndef STL
+
+# define KEY     char
+# define VALUE   std::string
+# define TYPE    ft::pair<KEY, VALUE>
+# define COMPARE std::less<KEY>
+# define KOV     _KeyOfValue
+# define VOV     _ValueOfValue
+# define RB_TREE ft::rb_tree<KEY, TYPE, KOV<TYPE>, COMPARE>
+# define RB_NODE ft::rb_tree_node<TYPE>
 
 template <typename T>
 struct _KeyOfValue {
@@ -162,5 +182,7 @@ T populate(T &data)
 
 void print_tree(RB_NODE *node, std::string const &indent, bool last);
 void print_tree(RB_NODE *node);
+
+#endif
 
 #endif /* TEST_UTILS_HPP */

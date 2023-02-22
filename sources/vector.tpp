@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:01:01 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/20 12:43:07 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/02/21 19:37:14 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,8 +273,13 @@ void vector<T, Alloc>::assign(size_type n, T const &value)
         throw std::length_error("vector::assign()");
     clear();
     reserve(n);
-    for (size_type i = 0; i < n; ++i)
-        _allocator.construct((_data + i), value);
+    if (is_integral<value_type>::value) {
+        for (size_type i = 0; i < n; ++i)
+            *(_data + i) = value;
+    } else {
+        for (size_type i = 0; i < n; ++i)
+            _allocator.construct((_data + i), value);
+    }
     _size = n;
 }
 
@@ -284,111 +289,20 @@ void vector<T, Alloc>::assign(Iter first,
                               Iter last,
                               typename enable_if<!is_integral<Iter>::value>::type *)
 {
+    size_type n = ft::distance(first, last);
 
-    size_type distance = ft::distance(first, last);
-
-    if (distance > max_size())
+    if (n > max_size())
         throw std::length_error("vector::assign()");
     clear();
-    reserve(distance);
-    for (size_type i = 0; i < distance; ++i)
-        _allocator.construct((_data + i), *(first + i));
-    _size = distance;
-}
-
-template <typename T, typename Alloc>
-void vector<T, Alloc>::clear(void)
-{
-    for (size_type i = 0; i < _size; ++i)
-        _allocator.destroy(_data + i);
-    _size = 0;
-}
-
-template <typename T, typename Alloc>
-typename vector<T, Alloc>::iterator vector<T, Alloc>::insert(iterator pos, T const &value)
-{
-    difference_type distance;
-
-    distance = pos - begin();
-    if (_size == _capacity)
-        reserve(_size ? (_size * 2) : 1);
-    for (difference_type i = _size; i > distance; --i) {
-        _allocator.construct((_data + i), *(_data + i - 1));
-        _allocator.destroy(_data + i - 1);
+    reserve(n);
+    if (is_integral<value_type>::value) {
+        for (size_type i = 0; i < n; ++i)
+            *(_data + i) = *(first + i);
+    } else {
+        for (size_type i = 0; i < n; ++i)
+            _allocator.construct((_data + i), *(first + i));
     }
-    ++_size;
-    _allocator.construct((_data + distance), value);
-    return (iterator(_data + distance));
-}
-
-template <typename T, typename Alloc>
-void vector<T, Alloc>::insert(iterator pos, size_type n, T const &value)
-{
-    difference_type distance;
-
-    if (!n)
-        return;
-    distance = pos - begin();
-    if ((_size + n) > _capacity)
-        reserve(_size + n);
-    for (difference_type i = _size; i > distance; --i) {
-        _allocator.construct((_data + i + n - 1), *(_data + i - 1));
-        _allocator.destroy(_data + i - 1);
-    }
-    _size += n;
-    for (difference_type i = (distance + n - 1); n--; --i)
-        _allocator.construct((_data + i), value);
-}
-
-template <typename T, typename Alloc>
-template <typename Iter>
-void vector<T, Alloc>::insert(iterator pos,
-                              Iter     first,
-                              Iter     last,
-                              typename enable_if<!is_integral<Iter>::value>::type *)
-{
-    difference_type distance, n = ft::distance(first, last);
-
-    if (!n)
-        return;
-    distance = pos - begin();
-    if ((_size + n) > _capacity)
-        reserve(((_size * 2) >= (_size + n)) ? (_size * 2) : (_size + n));
-    for (difference_type i = _size; i > distance; --i) {
-        _allocator.construct((_data + i + n - 1), *(_data + i - 1));
-        _allocator.destroy(_data + i - 1);
-    }
-    _size += n;
-    for (difference_type i = (distance + n - 1); n--; --i)
-        _allocator.construct((_data + i), *(first + n));
-}
-
-template <typename T, typename Alloc>
-typename vector<T, Alloc>::iterator vector<T, Alloc>::erase(iterator position)
-{
-    size_type distance;
-
-    distance = position - begin();
-    _allocator.destroy(_data + distance);
-    for (size_type i = distance; i < (_size - 1); ++i)
-        _allocator.construct(_data + i, *(_data + i + 1));
-    --_size;
-    return (iterator(_data + distance));
-}
-
-template <typename T, typename Alloc>
-typename vector<T, Alloc>::iterator vector<T, Alloc>::erase(iterator first, iterator last)
-{
-    difference_type distance, n;
-
-    distance = first - begin();
-    n        = last - first;
-    for (size_type i = distance; i < (_size - n); ++i) {
-        _allocator.construct(_data + i, *(_data + i + n));
-        _allocator.destroy(_data + i + n);
-    }
-    _size -= n;
-    return (iterator(_data + distance));
+    _size = n;
 }
 
 template <typename T, typename Alloc>
@@ -405,14 +319,120 @@ void vector<T, Alloc>::pop_back(void)
 {
     if (!_size)
         return;
-    _allocator.destroy(_data + (_size - 1));
+    if (!is_integral<value_type>::value)
+        _allocator.destroy(_data + (_size - 1));
     --_size;
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::iterator vector<T, Alloc>::insert(iterator pos, T const &value)
+{
+    difference_type distance;
+
+    distance = pos - begin();
+    if (_size == _capacity)
+        reserve(_size ? (_size * 2) : 1);
+    if (is_integral<value_type>::value) {
+        std::copy_backward((_data + distance), (_data + _size), (_data + _size + 1));
+    } else {
+        for (difference_type i = _size; i > distance; --i) {
+            _allocator.construct((_data + i), *(_data + i - 1));
+            _allocator.destroy(_data + i - 1);
+        }
+    }
+    _allocator.construct((_data + distance), value);
+    ++_size;
+    return (iterator(_data + distance));
+}
+
+template <typename T, typename Alloc>
+void vector<T, Alloc>::insert(iterator pos, size_type n, T const &value)
+{
+    difference_type distance;
+
+    if (!n)
+        return;
+    distance = pos - begin();
+    if ((_size + n) > _capacity)
+        reserve(((_size * 2) >= (_size + n)) ? (_size * 2) : (_size + n));
+    if (is_integral<value_type>::value) {
+        std::copy_backward((_data + distance), (_data + _size), (_data + _size + n));
+        for (difference_type i = (distance + n - 1); i >= distance; --i)
+            *(_data + i) = value;
+    } else {
+        for (difference_type i = _size; i > distance; --i) {
+            _allocator.construct((_data + i + n - 1), *(_data + i - 1));
+            _allocator.destroy(_data + i - 1);
+        }
+        for (difference_type i = (distance + n - 1); i >= distance; --i)
+            _allocator.construct((_data + i), value);
+    }
+    _size += n;
+}
+
+template <typename T, typename Alloc>
+template <typename Iter>
+void vector<T, Alloc>::insert(iterator pos,
+                              Iter     first,
+                              Iter     last,
+                              typename enable_if<!is_integral<Iter>::value>::type *)
+{
+    difference_type distance, n_elem, n = ft::distance(first, last);
+
+    if (!n)
+        return;
+    distance = pos - begin();
+    if ((_size + n) > _capacity)
+        reserve(((_size * 2) >= (_size + n)) ? (_size * 2) : (_size + n));
+    n_elem = n;
+    if (is_integral<value_type>::value) {
+        std::copy_backward((_data + distance), (_data + _size), (_data + _size + n));
+        for (difference_type i = (distance + n - 1); n_elem--; --i)
+            *(_data + i) = *(first + n_elem);
+    } else {
+        for (difference_type i = _size; i > distance; --i) {
+            _allocator.construct((_data + i + n - 1), *(_data + i - 1));
+            _allocator.destroy(_data + i - 1);
+        }
+        for (difference_type i = (distance + n - 1); n_elem--; --i)
+            _allocator.construct((_data + i), *(first + n_elem));
+    }
+    _size += n;
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::iterator vector<T, Alloc>::erase(iterator position)
+{
+    size_type distance = position - begin();
+
+    if ((position + 1) != end())
+        std::copy((_data + distance + 1), (_data + _size), (_data + distance));
+    --_size;
+    if (!is_integral<value_type>::value)
+        _allocator.destroy(_data + _size);
+    return (iterator(_data + distance));
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::iterator vector<T, Alloc>::erase(iterator first, iterator last)
+{
+    iterator        it(std::copy(last.base(), end().base(), first.base()));
+    difference_type distance = first - begin();
+
+    if (!is_integral<value_type>::value) {
+        while (it != end()) {
+            _allocator.destroy(it.base());
+            ++it;
+        }
+    }
+    _size -= last - first;
+    return (iterator(_data + distance));
 }
 
 template <typename T, typename Alloc>
 void vector<T, Alloc>::resize(size_type n, value_type value)
 {
-    if (n < _size) {
+    if (n < _size && !is_integral<value_type>::value) {
         for (size_type i = n; i < _size; ++i)
             _allocator.destroy(_data + i);
     } else {
@@ -437,6 +457,16 @@ void vector<T, Alloc>::swap(vector &src)
     _data         = tmp_data;
     _size         = tmp_size;
     _capacity     = tmp_capacity;
+}
+
+template <typename T, typename Alloc>
+void vector<T, Alloc>::clear(void)
+{
+    if (!is_integral<value_type>::value) {
+        for (size_type i = 0; i < _size; ++i)
+            _allocator.destroy(_data + i);
+    }
+    _size = 0;
 }
 
 /**************************************** ALLOCATOR ***************************************/

@@ -12,7 +12,7 @@ SOURCE_FILES		+= rb_tree.hpp rb_tree.tpp rb_tree_node.hpp rb_tree_node.tpp
 SOURCE_FILES		+= rb_tree_iterator.hpp rb_tree_iterator.tpp vector.hpp vector.tpp
 SOURCE_FILES		+= stack.hpp stack.tpp map.hpp map.tpp set.hpp set.tpp
 
-TEST_DIRS			:= . vector stack rbtree map set
+TEST_DIRS			:= . vector stack rbtree map set performance
 TEST_PATH			:= $(addprefix ./tests/, $(TEST_DIRS))
 TEST_HEADER			:= doctest.h test_utils.hpp
 TEST_FILES			:= doctest_main.cpp
@@ -41,6 +41,8 @@ ALL_TEST_FILES		+= $(TEST_RBTREE_FILES)
 ALL_TEST_FILES		+= $(TEST_MAP_FILES)
 ALL_TEST_FILES		+= $(TEST_SET_FILES)
 
+TEST_PERFORMANCE	:= test_vector_performance.cpp
+
 ifdef VECTOR
 	TEST_FILES += $(TEST_VECTOR_FILES)
 else ifdef STACK
@@ -51,6 +53,8 @@ else ifdef MAP
 	TEST_FILES += $(TEST_MAP_FILES)
 else ifdef SET
 	TEST_FILES += $(TEST_SET_FILES)
+else ifdef PERFORMANCE
+	TEST_FILES += $(TEST_PERFORMANCE)
 else
 	TEST_FILES += $(ALL_TEST_FILES)
 endif
@@ -61,11 +65,15 @@ OBJECT_FILES		:= $(TEST_FILES:%.cpp=$(OBJECT_PATH)/%.o)
 CC					:= c++
 CFLAGS				:= -Wall -Wextra -Werror -std=c++98
 IFLAGS				:= $(addprefix -I, $(SOURCE_PATH))
-IFLAGS				+= $(addprefix -I, $(TEST_PATH))
+IFLAGS				+= $(addprefix -I, ./tests)
 REMOVE				:= rm -rf
 
 ifdef DEBUG
 	CFLAGS += -g3
+endif
+
+ifdef STL
+	CFLAGS += -D STL=1
 endif
 
 VPATH				:= $(SOURCE_PATH) $(TEST_PATH)
@@ -92,7 +100,15 @@ re:					fclean all
 test:				re
 					./$(NAME)
 
+vgtest:				CFLAGS += -D ITERATIONS=1000
 vgtest:				re
 					valgrind ./$(NAME) -nt
 
-.PHONY:				all clean fclean re test vgtest
+performance:
+					@make -s re PERFORMANCE=1
+					@./ft_containers_tests
+					@echo
+					@make -s re PERFORMANCE=1 STL=1
+					@./ft_containers_tests
+
+.PHONY:				all clean fclean re test vgtest performance
