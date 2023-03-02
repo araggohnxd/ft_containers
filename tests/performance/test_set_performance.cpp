@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:41:52 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/22 20:03:28 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/03/02 19:18:31 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ TEST_CASE("test set performance")
 
         start = (double)clock() / CLOCKS_PER_SEC;
 
-        for (int i = 0; i < ITERATIONS / 5; ++i)
+        for (int i = 0; i < ITERATIONS; ++i)
             set.insert(i);
 
         end          = (double)clock() / CLOCKS_PER_SEC;
@@ -35,7 +35,7 @@ TEST_CASE("test set performance")
 
         start = (double)clock() / CLOCKS_PER_SEC;
 
-        for (int i = 0; i < ITERATIONS / 5; ++i)
+        for (int i = 0; i < ITERATIONS; ++i)
             set.insert(set.find(i - 1), i);
 
         end          = (double)clock() / CLOCKS_PER_SEC;
@@ -46,7 +46,7 @@ TEST_CASE("test set performance")
     {
         ft::set<int> base;
         ft::set<int> set;
-        for (int i = 0; i < ITERATIONS / 5; ++i)
+        for (int i = 0; i < ITERATIONS; ++i)
             base.insert(i);
 
         start = (double)clock() / CLOCKS_PER_SEC;
@@ -60,12 +60,12 @@ TEST_CASE("test set performance")
     SUBCASE("test int set erase single performance")
     {
         ft::set<int> set;
-        for (int i = 0; i < ITERATIONS / 5; ++i)
+        for (int i = 0; i < ITERATIONS; ++i)
             set.insert(i);
 
         start = (double)clock() / CLOCKS_PER_SEC;
 
-        for (int i = 0; i < ITERATIONS / 5; ++i)
+        for (int i = 0; i < ITERATIONS; ++i)
             set.erase(set.begin());
 
         end          = (double)clock() / CLOCKS_PER_SEC;
@@ -75,12 +75,12 @@ TEST_CASE("test set performance")
     SUBCASE("test int set erase key performance")
     {
         ft::set<int> set;
-        for (int i = 0; i < ITERATIONS / 5; ++i)
+        for (int i = 0; i < ITERATIONS; ++i)
             set.insert(i);
 
         start = (double)clock() / CLOCKS_PER_SEC;
 
-        for (int i = 0; i < ITERATIONS / 5; ++i)
+        for (int i = 0; i < ITERATIONS; ++i)
             set.erase(i);
 
         end          = (double)clock() / CLOCKS_PER_SEC;
@@ -90,7 +90,7 @@ TEST_CASE("test set performance")
     SUBCASE("test int set erase range performance")
     {
         ft::set<int> set;
-        for (int i = 0; i < ITERATIONS / 5; ++i)
+        for (int i = 0; i < ITERATIONS; ++i)
             set.insert(i);
 
         start = (double)clock() / CLOCKS_PER_SEC;
@@ -104,7 +104,7 @@ TEST_CASE("test set performance")
     SUBCASE("test int set clear performance")
     {
         ft::set<int> set;
-        for (int i = 0; i < ITERATIONS / 5; ++i)
+        for (int i = 0; i < ITERATIONS; ++i)
             set.insert(i);
 
         start = (double)clock() / CLOCKS_PER_SEC;
@@ -118,12 +118,12 @@ TEST_CASE("test set performance")
     SUBCASE("test int set find performance")
     {
         ft::set<int> set;
-        for (int i = 0; i < ITERATIONS / 5; ++i)
+        for (int i = 0; i < ITERATIONS; ++i)
             set.insert(i);
 
         start = (double)clock() / CLOCKS_PER_SEC;
 
-        set.find(ITERATIONS / 5 / 2);
+        set.find(ITERATIONS / 2);
 
         end          = (double)clock() / CLOCKS_PER_SEC;
         elapsed_time = end - start;
@@ -132,12 +132,12 @@ TEST_CASE("test set performance")
     SUBCASE("test int set lower_bound performance")
     {
         ft::set<int> set;
-        for (int i = 0; i < ITERATIONS / 5; ++i)
+        for (int i = 0; i < ITERATIONS; ++i)
             set.insert(i);
 
         start = (double)clock() / CLOCKS_PER_SEC;
 
-        set.lower_bound(ITERATIONS / 5 / 2);
+        set.lower_bound(ITERATIONS / 2);
 
         end          = (double)clock() / CLOCKS_PER_SEC;
         elapsed_time = end - start;
@@ -146,12 +146,12 @@ TEST_CASE("test set performance")
     SUBCASE("test int set upper_bound performance")
     {
         ft::set<int> set;
-        for (int i = 0; i < ITERATIONS / 5; ++i)
+        for (int i = 0; i < ITERATIONS; ++i)
             set.insert(i);
 
         start = (double)clock() / CLOCKS_PER_SEC;
 
-        set.upper_bound(ITERATIONS / 5 / 2);
+        set.upper_bound(ITERATIONS / 2);
 
         end          = (double)clock() / CLOCKS_PER_SEC;
         elapsed_time = end - start;
@@ -160,12 +160,12 @@ TEST_CASE("test set performance")
     SUBCASE("test int set equal_range performance")
     {
         ft::set<int> set;
-        for (int i = 0; i < ITERATIONS / 5; ++i)
+        for (int i = 0; i < ITERATIONS; ++i)
             set.insert(i);
 
         start = (double)clock() / CLOCKS_PER_SEC;
 
-        set.equal_range(ITERATIONS / 5 / 2);
+        set.equal_range(ITERATIONS / 2);
 
         end          = (double)clock() / CLOCKS_PER_SEC;
         elapsed_time = end - start;

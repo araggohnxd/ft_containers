@@ -99,7 +99,8 @@ class rb_tree {
 
         /************************************ LOOKUP OPERATIONS ***********************************/
 
-        node_pointer                         find(key_type const &key);
+        iterator                             find(key_type const &key);
+        const_iterator                       find(key_type const &key) const;
         size_type                            count(key_type const &key) const;
         iterator                             lower_bound(key_type const &key);
         const_iterator                       lower_bound(key_type const &key) const;
@@ -116,8 +117,8 @@ class rb_tree {
         node_pointer _find(node_pointer x, key_type const &key) const;
         node_pointer _create_node(value_type const &value);
         node_pointer _initialize_nil(void);
+        node_pointer _insert_unique(value_type const &value);
         void         _destroy_tree(node_pointer node);
-        iterator     _insert_unique(value_type const &value);
         void         _insert_fixup(node_pointer z);
         void         _insert_fixup_left_child(node_pointer z);
         void         _insert_fixup_right_child(node_pointer z);
