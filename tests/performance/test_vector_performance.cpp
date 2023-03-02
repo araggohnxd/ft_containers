@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:04:08 by maolivei          #+#    #+#             */
-/*   Updated: 2023/02/21 21:26:15 by maolivei         ###   ########.fr       */
+/*   Updated: 2023/03/02 19:20:16 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ TEST_CASE("test vector performance")
 
         start = (double)clock() / CLOCKS_PER_SEC;
 
-        for (int i = 0; i < ITERATIONS; ++i)
+        for (int i = 0; i < ITERATIONS / 10; ++i)
             vec.insert(vec.begin(), i);
 
         end          = (double)clock() / CLOCKS_PER_SEC;
@@ -89,7 +89,7 @@ TEST_CASE("test vector performance")
 
         start = (double)clock() / CLOCKS_PER_SEC;
 
-        for (int i = 0; i < ITERATIONS; ++i)
+        for (int i = 0; i < ITERATIONS / 10; ++i)
             vec.insert(vec.begin(), 10, i);
 
         end          = (double)clock() / CLOCKS_PER_SEC;
@@ -104,7 +104,7 @@ TEST_CASE("test vector performance")
 
         start = (double)clock() / CLOCKS_PER_SEC;
 
-        for (int i = 0; i < ITERATIONS; ++i)
+        for (int i = 0; i < ITERATIONS / 10; ++i)
             vec.insert(vec.begin(), base.begin(), base.end());
 
         end          = (double)clock() / CLOCKS_PER_SEC;
@@ -201,7 +201,7 @@ TEST_CASE("test vector performance")
 
         start = (double)clock() / CLOCKS_PER_SEC;
 
-        for (int i = 0; i < ITERATIONS / 10; ++i)
+        for (int i = 0; i < ITERATIONS / 100; ++i)
             vec.insert(vec.begin(), "foo");
 
         end          = (double)clock() / CLOCKS_PER_SEC;
@@ -215,7 +215,7 @@ TEST_CASE("test vector performance")
 
         start = (double)clock() / CLOCKS_PER_SEC;
 
-        for (int i = 0; i < ITERATIONS / 10; ++i)
+        for (int i = 0; i < ITERATIONS / 100; ++i)
             vec.insert(vec.begin(), 10, "foo");
 
         end          = (double)clock() / CLOCKS_PER_SEC;
@@ -230,7 +230,7 @@ TEST_CASE("test vector performance")
 
         start = (double)clock() / CLOCKS_PER_SEC;
 
-        for (int i = 0; i < ITERATIONS / 10; ++i)
+        for (int i = 0; i < ITERATIONS / 100; ++i)
             vec.insert(vec.begin(), base.begin(), base.end());
 
         end          = (double)clock() / CLOCKS_PER_SEC;
